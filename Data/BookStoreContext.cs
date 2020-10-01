@@ -23,8 +23,9 @@ namespace BookStore.Data
         public Microsoft.EntityFrameworkCore.DbSet<Card> Cards { get; set; }
         public Microsoft.EntityFrameworkCore.DbSet<Address> Addresses { get; set; }
         public Microsoft.EntityFrameworkCore.DbSet<User> Users { get; set; }
+        public Microsoft.EntityFrameworkCore.DbSet<SaveForLater> SaveForLater { get; set; }
 
-//overrriding the nam of the classes into singular 
+        //overrriding the nam of the classes into singular 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -35,6 +36,7 @@ namespace BookStore.Data
             modelBuilder.Entity<Card>().ToTable("Card");
             modelBuilder.Entity<Address>().ToTable("Address");
             modelBuilder.Entity<User>().ToTable("User");
+            modelBuilder.Entity<SaveForLater>().ToTable("SaveForLater");
         }
     }
 }

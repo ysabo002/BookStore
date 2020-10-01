@@ -4,14 +4,16 @@ using BookStore.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BookStore.Migrations
 {
     [DbContext(typeof(BookStoreContext))]
-    partial class BookStoreContextModelSnapshot : ModelSnapshot
+    [Migration("20201001024432_MigrationFive")]
+    partial class MigrationFive
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -100,9 +102,6 @@ namespace BookStore.Migrations
                     b.Property<double>("RatingAve")
                         .HasColumnType("float");
 
-                    b.Property<int?>("SaveForLaterID")
-                        .HasColumnType("int");
-
                     b.Property<string>("Seller")
                         .HasColumnType("nvarchar(max)");
 
@@ -113,8 +112,6 @@ namespace BookStore.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("BookID");
-
-                    b.HasIndex("SaveForLaterID");
 
                     b.HasIndex("ShoppingCartID");
 
@@ -231,26 +228,6 @@ namespace BookStore.Migrations
                     b.ToTable("Review");
                 });
 
-            modelBuilder.Entity("BookStore.Models.SaveForLater", b =>
-                {
-                    b.Property<int>("SaveForLaterID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("BuyerID")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("SaveForLaterID");
-
-                    b.HasIndex("BuyerID");
-
-                    b.ToTable("SaveForLater");
-                });
-
             modelBuilder.Entity("BookStore.Models.ShoppingCart", b =>
                 {
                     b.Property<int>("ShoppingCartID")
@@ -316,10 +293,6 @@ namespace BookStore.Migrations
 
             modelBuilder.Entity("BookStore.Models.Book", b =>
                 {
-                    b.HasOne("BookStore.Models.SaveForLater", null)
-                        .WithMany("BookList")
-                        .HasForeignKey("SaveForLaterID");
-
                     b.HasOne("BookStore.Models.ShoppingCart", null)
                         .WithMany("ListOfBooks")
                         .HasForeignKey("ShoppingCartID");
@@ -347,15 +320,6 @@ namespace BookStore.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BookStore.Models.Buyer", "Buyer")
-                        .WithMany()
-                        .HasForeignKey("BuyerID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("BookStore.Models.SaveForLater", b =>
-                {
                     b.HasOne("BookStore.Models.Buyer", "Buyer")
                         .WithMany()
                         .HasForeignKey("BuyerID")
