@@ -4,14 +4,16 @@ using BookStore.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BookStore.Migrations
 {
     [DbContext(typeof(BookStoreContext))]
-    partial class BookStoreContextModelSnapshot : ModelSnapshot
+    [Migration("20201004004316_RemoveUserClass")]
+    partial class RemoveUserClass
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -73,9 +75,6 @@ namespace BookStore.Migrations
                     b.Property<string>("Author")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<byte[]>("Cover")
-                        .HasColumnType("varbinary(max)");
-
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
@@ -122,60 +121,6 @@ namespace BookStore.Migrations
                     b.HasIndex("ShoppingCartID");
 
                     b.ToTable("Book");
-                });
-
-            modelBuilder.Entity("BookStore.Models.BookBuyer", b =>
-                {
-                    b.Property<int>("BookID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("BuyerID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("BookBuyerID")
-                        .HasColumnType("int");
-
-                    b.HasKey("BookID", "BuyerID");
-
-                    b.HasIndex("BuyerID");
-
-                    b.ToTable("BookBuyer");
-                });
-
-            modelBuilder.Entity("BookStore.Models.BookSaveForLater", b =>
-                {
-                    b.Property<int>("BookID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SaveForLaterID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("BookSaveForLaterID")
-                        .HasColumnType("int");
-
-                    b.HasKey("BookID", "SaveForLaterID");
-
-                    b.HasIndex("SaveForLaterID");
-
-                    b.ToTable("BookSaveForLater");
-                });
-
-            modelBuilder.Entity("BookStore.Models.BookShoppingCart", b =>
-                {
-                    b.Property<int>("BookID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ShoppingCartID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("BookShoppingCartID")
-                        .HasColumnType("int");
-
-                    b.HasKey("BookID", "ShoppingCartID");
-
-                    b.HasIndex("ShoppingCartID");
-
-                    b.ToTable("BookShoppingCart");
                 });
 
             modelBuilder.Entity("BookStore.Models.Buyer", b =>
@@ -293,16 +238,7 @@ namespace BookStore.Migrations
                     b.Property<int>("BuyerID")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
                     b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime>("LastUpdatedDate")
                         .HasColumnType("datetime2");
 
                     b.HasKey("SaveForLaterID");
@@ -357,53 +293,8 @@ namespace BookStore.Migrations
                         .HasForeignKey("SaveForLaterID");
 
                     b.HasOne("BookStore.Models.ShoppingCart", null)
-                        .WithMany("Books")
+                        .WithMany("ListOfBooks")
                         .HasForeignKey("ShoppingCartID");
-                });
-
-            modelBuilder.Entity("BookStore.Models.BookBuyer", b =>
-                {
-                    b.HasOne("BookStore.Models.Book", "Book")
-                        .WithMany("BookBuyers")
-                        .HasForeignKey("BookID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("BookStore.Models.Buyer", "Buyer")
-                        .WithMany("BookBuyers")
-                        .HasForeignKey("BuyerID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("BookStore.Models.BookSaveForLater", b =>
-                {
-                    b.HasOne("BookStore.Models.Book", "Book")
-                        .WithMany("BookSaveForLaters")
-                        .HasForeignKey("BookID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("BookStore.Models.SaveForLater", "SaveForLater")
-                        .WithMany("BookSaveForLaters")
-                        .HasForeignKey("SaveForLaterID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("BookStore.Models.BookShoppingCart", b =>
-                {
-                    b.HasOne("BookStore.Models.Book", "Book")
-                        .WithMany("BookShoppingCarts")
-                        .HasForeignKey("BookID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("BookStore.Models.ShoppingCart", "ShoppingCart")
-                        .WithMany("BookShoppingCarts")
-                        .HasForeignKey("ShoppingCartID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("BookStore.Models.Card", b =>
@@ -418,7 +309,7 @@ namespace BookStore.Migrations
             modelBuilder.Entity("BookStore.Models.Review", b =>
                 {
                     b.HasOne("BookStore.Models.Book", "Book")
-                        .WithMany("Reviews")
+                        .WithMany()
                         .HasForeignKey("BookID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

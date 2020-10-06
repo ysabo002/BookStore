@@ -57,7 +57,7 @@ namespace BookStore
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("SaveForLaterID,BuyerID,Date")] SaveForLater saveForLater)
+        public async Task<IActionResult> Create([Bind("SaveForLaterID,BuyerID,Date,CreatedDate,LastUpdatedDate,IsActive")] SaveForLater saveForLater)
         {
             if (ModelState.IsValid)
             {
@@ -91,7 +91,7 @@ namespace BookStore
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("SaveForLaterID,BuyerID,Date")] SaveForLater saveForLater)
+        public async Task<IActionResult> Edit(int id, [Bind("SaveForLaterID,BuyerID,Date,CreatedDate,LastUpdatedDate,IsActive")] SaveForLater saveForLater)
         {
             if (id != saveForLater.SaveForLaterID)
             {

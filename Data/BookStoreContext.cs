@@ -22,7 +22,7 @@ namespace BookStore.Data
         public Microsoft.EntityFrameworkCore.DbSet<Review> Reviews { get; set; }
         public Microsoft.EntityFrameworkCore.DbSet<Card> Cards { get; set; }
         public Microsoft.EntityFrameworkCore.DbSet<Address> Addresses { get; set; }
-        public Microsoft.EntityFrameworkCore.DbSet<User> Users { get; set; }
+
         public Microsoft.EntityFrameworkCore.DbSet<SaveForLater> SaveForLater { get; set; }
 
         //overrriding the nam of the classes into singular 
@@ -35,8 +35,29 @@ namespace BookStore.Data
             modelBuilder.Entity<Review>().ToTable("Review");
             modelBuilder.Entity<Card>().ToTable("Card");
             modelBuilder.Entity<Address>().ToTable("Address");
-            modelBuilder.Entity<User>().ToTable("User");
             modelBuilder.Entity<SaveForLater>().ToTable("SaveForLater");
+
+            modelBuilder.Entity<BookShoppingCart>()
+            .HasKey(t => new { t.BookID, t.ShoppingCartID });  //relationship many to many
+
+
+            modelBuilder.Entity<BookBuyer>()
+            .HasKey(t => new { t.BookID, t.BuyerID });
+
+
+            modelBuilder.Entity<BookSaveForLater>()
+            .HasKey(t => new { t.BookID, t.SaveForLaterID });
+
+
+
+
+
+
+
+
+
+
+
         }
     }
 }

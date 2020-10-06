@@ -22,7 +22,7 @@ namespace BookStore
         // GET: Books
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Books.ToListAsync());
+            return View(await _context.Books.Where(x=> x.IsActive).ToListAsync());
         }
 
         // GET: Books/Details/5
@@ -54,10 +54,11 @@ namespace BookStore
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("BookID,Title,Author,Genre,Isbn,Seller,Price,RatingAve,CreationDate,Quantity,CreatedDate,LastUpdatedDate,IsActive")] Book book)
+        public async Task<IActionResult> Create([Bind("BookID,Title,Author,Genre,Isbn,Seller,Price,RatingAve,Cover,CreationDate,Quantity,CreatedDate,LastUpdatedDate,IsActive")] Book book)
         {
             if (ModelState.IsValid)
             {
+                book.IsActive = true;
                 _context.Add(book);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -140,7 +141,8 @@ namespace BookStore
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var book = await _context.Books.FindAsync(id);
-            _context.Books.Remove(book);
+            book.IsActive = false;
+            _context.Books.Update(book);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }

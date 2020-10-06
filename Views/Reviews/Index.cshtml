@@ -27,15 +27,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.Book)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CreatedDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.LastUpdatedDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IsActive)
-            </th>
+           
             <th></th>
         </tr>
     </thead>
@@ -57,15 +49,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Book.BookID)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreatedDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LastUpdatedDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsActive)
-            </td>
+            
             <td>
                 <a asp-action="Edit" asp-route-id="@item.ReviewID">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.ReviewID">Details</a> |

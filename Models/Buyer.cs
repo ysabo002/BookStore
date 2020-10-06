@@ -13,7 +13,7 @@ namespace BookStore.Models
         public List<Card> CardList { get; set; }
         public List<Address> AddressList { get; set; }
         public string Email { get; set; }
-        public User User { get; set; }
         public string Nickname { get; set; }
+        public List<BookBuyer> BookBuyers { get; set; } //aux list for relationship many to many
     }
 }

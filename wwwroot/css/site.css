@@ -63,9 +63,10 @@ body {
   margin-bottom: 60px;
 }
 .footer {
+  text-align:center !important;
   position: absolute;
   bottom: 0;
   width: 100%;
   white-space: nowrap;
-  line-height: 60px; /* Vertically center the text there */
+  line-height: 30px; /* Vertically center the text there */
 }

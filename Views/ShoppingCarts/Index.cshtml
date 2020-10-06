@@ -39,15 +39,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Buyer.BuyerID)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreatedDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LastUpdatedDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsActive)
-            </td>
+            
             <td>
                 <a asp-action="Edit" asp-route-id="@item.ShoppingCartID">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.ShoppingCartID">Details</a> |

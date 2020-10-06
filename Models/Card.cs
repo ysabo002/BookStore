@@ -9,6 +9,9 @@ namespace BookStore.Models
         public int SecCode { get; set; }
         public bool Preferred { get; set; }
 
-       // public Address  find out if we need to place the address here
+        public int BuyerID { get; set; }
+        public Buyer Buyer { get; set; } //nav prop
+
+       
     }
 }
