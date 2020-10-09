@@ -13,6 +13,7 @@ namespace BookStore.Services.Interfaces
         Task<bool> Delete(Address entity);
         Task<Address> Get(int entityID);
         Task<Address> Update(Address entity);
+        Task<Address> Details(Address entity);
         Task<ICollection<Address>> GetAll();
         Task<ICollection<Address>> GetAddressesByBuyerID(int entiyID);
         

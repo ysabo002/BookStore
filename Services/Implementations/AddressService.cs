@@ -27,6 +27,12 @@ namespace BookStore.Services.Implementations
             throw new NotImplementedException();
         }
 
+        public Task<Address> Details(Address entity)
+        {
+
+            throw new NotImplementedException();
+        }
+
         public Task<Address> Get(int entityID)
         {
             throw new NotImplementedException();
