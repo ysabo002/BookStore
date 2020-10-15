@@ -5,25 +5,24 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using BookStore.Data;
 using BookStore.Models;
 
 namespace BookStore
 {
     public class ShoppingCartsController : Controller
     {
-        private readonly BookStoreContext _context;
+        
 
-        public ShoppingCartsController(BookStoreContext context)
+        public ShoppingCartsController()
         {
-            _context = context;
+           
         }
 
         // GET: ShoppingCarts
         public async Task<IActionResult> Index()
         {
-            var bookStoreContext = _context.Carts.Include(s => s.Buyer);
-            return View(await bookStoreContext.ToListAsync());
+     
+            return View();
         }
 
         // GET: ShoppingCarts/Details/5
@@ -34,21 +33,16 @@ namespace BookStore
                 return NotFound();
             }
 
-            var shoppingCart = await _context.Carts
-                .Include(s => s.Buyer)
-                .FirstOrDefaultAsync(m => m.ShoppingCartID == id);
-            if (shoppingCart == null)
-            {
-                return NotFound();
-            }
+          
+          
 
-            return View(shoppingCart);
+            return View();
         }
 
         // GET: ShoppingCarts/Create
         public IActionResult Create()
         {
-            ViewData["BuyerID"] = new SelectList(_context.Buyers, "BuyerID", "BuyerID");
+          
             return View();
         }
 
@@ -61,11 +55,10 @@ namespace BookStore
         {
             if (ModelState.IsValid)
             {
-                _context.Add(shoppingCart);
-                await _context.SaveChangesAsync();
+               
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["BuyerID"] = new SelectList(_context.Buyers, "BuyerID", "BuyerID", shoppingCart.BuyerID);
+            ViewData["BuyerID"] = new SelectList( "BuyerID", "BuyerID");
             return View(shoppingCart);
         }
 
@@ -77,13 +70,10 @@ namespace BookStore
                 return NotFound();
             }
 
-            var shoppingCart = await _context.Carts.FindAsync(id);
-            if (shoppingCart == null)
-            {
-                return NotFound();
-            }
-            ViewData["BuyerID"] = new SelectList(_context.Buyers, "BuyerID", "BuyerID", shoppingCart.BuyerID);
-            return View(shoppingCart);
+            
+           
+            ViewData["BuyerID"] = new SelectList("BuyerID", "BuyerID");
+            return View();
         }
 
         // POST: ShoppingCarts/Edit/5
@@ -100,26 +90,12 @@ namespace BookStore
 
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(shoppingCart);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ShoppingCartExists(shoppingCart.ShoppingCartID))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                
+               
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["BuyerID"] = new SelectList(_context.Buyers, "BuyerID", "BuyerID", shoppingCart.BuyerID);
-            return View(shoppingCart);
+            ViewData["BuyerID"] = new SelectList( "BuyerID", "BuyerID");
+            return View();
         }
 
         // GET: ShoppingCarts/Delete/5
@@ -130,15 +106,7 @@ namespace BookStore
                 return NotFound();
             }
 
-            var shoppingCart = await _context.Carts
-                .Include(s => s.Buyer)
-                .FirstOrDefaultAsync(m => m.ShoppingCartID == id);
-            if (shoppingCart == null)
-            {
-                return NotFound();
-            }
-
-            return View(shoppingCart);
+            return View();
         }
 
         // POST: ShoppingCarts/Delete/5
@@ -146,15 +114,9 @@ namespace BookStore
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var shoppingCart = await _context.Carts.FindAsync(id);
-            _context.Carts.Remove(shoppingCart);
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ShoppingCartExists(int id)
-        {
-            return _context.Carts.Any(e => e.ShoppingCartID == id);
-        }
+       
     }
 }

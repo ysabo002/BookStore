@@ -1,28 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using BookStore.Data;
 using BookStore.Models;
 
 namespace BookStore
 {
     public class CardsController : Controller
     {
-        private readonly BookStoreContext _context;
+      
 
-        public CardsController(BookStoreContext context)
+        public CardsController()
         {
-            _context = context;
+           
         }
 
         // GET: Cards
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Cards.ToListAsync());
+            return View();
         }
 
         // GET: Cards/Details/5
@@ -33,14 +28,9 @@ namespace BookStore
                 return NotFound();
             }
 
-            var card = await _context.Cards
-                .FirstOrDefaultAsync(m => m.CardID == id);
-            if (card == null)
-            {
-                return NotFound();
-            }
-
-            return View(card);
+           
+          
+            return View();
         }
 
         // GET: Cards/Create
@@ -58,9 +48,7 @@ namespace BookStore
         {
             if (ModelState.IsValid)
             {
-                _context.Add(card);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+               
             }
             return View(card);
         }
@@ -73,12 +61,9 @@ namespace BookStore
                 return NotFound();
             }
 
-            var card = await _context.Cards.FindAsync(id);
-            if (card == null)
-            {
-                return NotFound();
-            }
-            return View(card);
+           
+            
+            return View();
         }
 
         // POST: Cards/Edit/5
@@ -97,19 +82,11 @@ namespace BookStore
             {
                 try
                 {
-                    _context.Update(card);
-                    await _context.SaveChangesAsync();
+                   
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CardExists(card.CardID))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                   
                 }
                 return RedirectToAction(nameof(Index));
             }
@@ -124,14 +101,9 @@ namespace BookStore
                 return NotFound();
             }
 
-            var card = await _context.Cards
-                .FirstOrDefaultAsync(m => m.CardID == id);
-            if (card == null)
-            {
-                return NotFound();
-            }
-
-            return View(card);
+          
+            
+            return View();
         }
 
         // POST: Cards/Delete/5
@@ -139,15 +111,11 @@ namespace BookStore
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var card = await _context.Cards.FindAsync(id);
-            _context.Cards.Remove(card);
-            await _context.SaveChangesAsync();
+          
+           
             return RedirectToAction(nameof(Index));
         }
 
-        private bool CardExists(int id)
-        {
-            return _context.Cards.Any(e => e.CardID == id);
-        }
+    
     }
 }

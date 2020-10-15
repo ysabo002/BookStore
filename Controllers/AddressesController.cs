@@ -5,24 +5,24 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using BookStore.Data;
+
 using BookStore.Models;
 
 namespace BookStore
 {
     public class AddressesController : Controller
     {
-        private readonly BookStoreContext _context;
+       
 
-        public AddressesController(BookStoreContext context)
+        public AddressesController()
         {
-            _context = context;
+           
         }
 
         // GET: Addresses
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Addresses.ToListAsync());
+            return View();
         }
 
         // GET: Addresses/Details/5
@@ -33,14 +33,10 @@ namespace BookStore
                 return NotFound();
             }
 
-            var address = await _context.Addresses
-                .FirstOrDefaultAsync(m => m.AddressID == id);
-            if (address == null)
-            {
-                return NotFound();
-            }
+           
+            
 
-            return View(address);
+            return View();
         }
 
         // GET: Addresses/Create
@@ -58,8 +54,7 @@ namespace BookStore
         {
             if (ModelState.IsValid)
             {
-                _context.Add(address);
-                await _context.SaveChangesAsync();
+               
                 return RedirectToAction(nameof(Index));
             }
             return View(address);
@@ -73,12 +68,9 @@ namespace BookStore
                 return NotFound();
             }
 
-            var address = await _context.Addresses.FindAsync(id);
-            if (address == null)
-            {
-                return NotFound();
-            }
-            return View(address);
+            
+            
+            return View();
         }
 
         // POST: Addresses/Edit/5
@@ -95,22 +87,7 @@ namespace BookStore
 
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(address);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!AddressExists(address.AddressID))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+               
                 return RedirectToAction(nameof(Index));
             }
             return View(address);
@@ -124,14 +101,10 @@ namespace BookStore
                 return NotFound();
             }
 
-            var address = await _context.Addresses
-                .FirstOrDefaultAsync(m => m.AddressID == id);
-            if (address == null)
-            {
-                return NotFound();
-            }
+           
+              
 
-            return View(address);
+            return View();
         }
 
         // POST: Addresses/Delete/5
@@ -139,15 +112,10 @@ namespace BookStore
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var address = await _context.Addresses.FindAsync(id);
-            _context.Addresses.Remove(address);
-            await _context.SaveChangesAsync();
+           
             return RedirectToAction(nameof(Index));
         }
 
-        private bool AddressExists(int id)
-        {
-            return _context.Addresses.Any(e => e.AddressID == id);
-        }
+       
     }
 }

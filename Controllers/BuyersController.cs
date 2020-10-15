@@ -5,24 +5,23 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using BookStore.Data;
 using BookStore.Models;
 
 namespace BookStore
 {
     public class BuyersController : Controller
     {
-        private readonly BookStoreContext _context;
+        
 
-        public BuyersController(BookStoreContext context)
+        public BuyersController()
         {
-            _context = context;
+           
         }
 
         // GET: Buyers
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Buyers.ToListAsync());
+            return View();
         }
 
         // GET: Buyers/Details/5
@@ -33,14 +32,10 @@ namespace BookStore
                 return NotFound();
             }
 
-            var buyer = await _context.Buyers
-                .FirstOrDefaultAsync(m => m.BuyerID == id);
-            if (buyer == null)
-            {
-                return NotFound();
-            }
+            
+           
 
-            return View(buyer);
+            return View();
         }
 
         // GET: Buyers/Create
@@ -58,8 +53,7 @@ namespace BookStore
         {
             if (ModelState.IsValid)
             {
-                _context.Add(buyer);
-                await _context.SaveChangesAsync();
+            
                 return RedirectToAction(nameof(Index));
             }
             return View(buyer);
@@ -73,12 +67,9 @@ namespace BookStore
                 return NotFound();
             }
 
-            var buyer = await _context.Buyers.FindAsync(id);
-            if (buyer == null)
-            {
-                return NotFound();
-            }
-            return View(buyer);
+           
+          
+            return View();
         }
 
         // POST: Buyers/Edit/5
@@ -97,19 +88,11 @@ namespace BookStore
             {
                 try
                 {
-                    _context.Update(buyer);
-                    await _context.SaveChangesAsync();
+                  
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!BuyerExists(buyer.BuyerID))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    
                 }
                 return RedirectToAction(nameof(Index));
             }
@@ -124,14 +107,10 @@ namespace BookStore
                 return NotFound();
             }
 
-            var buyer = await _context.Buyers
-                .FirstOrDefaultAsync(m => m.BuyerID == id);
-            if (buyer == null)
-            {
-                return NotFound();
-            }
+           
+            
 
-            return View(buyer);
+            return View();
         }
 
         // POST: Buyers/Delete/5
@@ -139,15 +118,10 @@ namespace BookStore
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var buyer = await _context.Buyers.FindAsync(id);
-            _context.Buyers.Remove(buyer);
-            await _context.SaveChangesAsync();
+           
             return RedirectToAction(nameof(Index));
         }
 
-        private bool BuyerExists(int id)
-        {
-            return _context.Buyers.Any(e => e.BuyerID == id);
-        }
+       
     }
 }

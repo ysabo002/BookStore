@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.30503.244
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookStore", "BookStore.csproj", "{1E190F05-EF20-40B6-BDEF-8BBAB3155CD2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API", "..\API\API.csproj", "{199F8834-7F91-4811-B1B7-67D37D015405}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "API", "..\API\API.csproj", "{199F8834-7F91-4811-B1B7-67D37D015405}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

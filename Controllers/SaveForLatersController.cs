@@ -5,25 +5,21 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using BookStore.Data;
 using BookStore.Models;
 
 namespace BookStore
 {
     public class SaveForLatersController : Controller
     {
-        private readonly BookStoreContext _context;
+      
 
-        public SaveForLatersController(BookStoreContext context)
-        {
-            _context = context;
-        }
+       
 
         // GET: SaveForLaters
         public async Task<IActionResult> Index()
         {
-            var bookStoreContext = _context.SaveForLater.Include(s => s.Buyer);
-            return View(await bookStoreContext.ToListAsync());
+          
+            return View();
         }
 
         // GET: SaveForLaters/Details/5
@@ -34,21 +30,16 @@ namespace BookStore
                 return NotFound();
             }
 
-            var saveForLater = await _context.SaveForLater
-                .Include(s => s.Buyer)
-                .FirstOrDefaultAsync(m => m.SaveForLaterID == id);
-            if (saveForLater == null)
-            {
-                return NotFound();
-            }
+          
+           
 
-            return View(saveForLater);
+            return View();
         }
 
         // GET: SaveForLaters/Create
         public IActionResult Create()
         {
-            ViewData["BuyerID"] = new SelectList(_context.Buyers, "BuyerID", "BuyerID");
+            ViewData["BuyerID"] = new SelectList("BuyerID", "BuyerID");
             return View();
         }
 
@@ -61,11 +52,10 @@ namespace BookStore
         {
             if (ModelState.IsValid)
             {
-                _context.Add(saveForLater);
-                await _context.SaveChangesAsync();
+              
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["BuyerID"] = new SelectList(_context.Buyers, "BuyerID", "BuyerID", saveForLater.BuyerID);
+            ViewData["BuyerID"] = new SelectList( "BuyerID", "BuyerID");
             return View(saveForLater);
         }
 
@@ -77,13 +67,10 @@ namespace BookStore
                 return NotFound();
             }
 
-            var saveForLater = await _context.SaveForLater.FindAsync(id);
-            if (saveForLater == null)
-            {
-                return NotFound();
-            }
-            ViewData["BuyerID"] = new SelectList(_context.Buyers, "BuyerID", "BuyerID", saveForLater.BuyerID);
-            return View(saveForLater);
+           
+           
+            ViewData["BuyerID"] = new SelectList( "BuyerID", "BuyerID");
+            return View();
         }
 
         // POST: SaveForLaters/Edit/5
@@ -100,25 +87,11 @@ namespace BookStore
 
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(saveForLater);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!SaveForLaterExists(saveForLater.SaveForLaterID))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+               
+               
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["BuyerID"] = new SelectList(_context.Buyers, "BuyerID", "BuyerID", saveForLater.BuyerID);
+            ViewData["BuyerID"] = new SelectList( "BuyerID", "BuyerID");
             return View(saveForLater);
         }
 
@@ -130,15 +103,10 @@ namespace BookStore
                 return NotFound();
             }
 
-            var saveForLater = await _context.SaveForLater
-                .Include(s => s.Buyer)
-                .FirstOrDefaultAsync(m => m.SaveForLaterID == id);
-            if (saveForLater == null)
-            {
-                return NotFound();
-            }
+           
+           
 
-            return View(saveForLater);
+            return View();
         }
 
         // POST: SaveForLaters/Delete/5
@@ -146,15 +114,10 @@ namespace BookStore
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var saveForLater = await _context.SaveForLater.FindAsync(id);
-            _context.SaveForLater.Remove(saveForLater);
-            await _context.SaveChangesAsync();
+           
             return RedirectToAction(nameof(Index));
         }
 
-        private bool SaveForLaterExists(int id)
-        {
-            return _context.SaveForLater.Any(e => e.SaveForLaterID == id);
-        }
+       
     }
 }

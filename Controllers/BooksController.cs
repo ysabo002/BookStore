@@ -5,24 +5,22 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using BookStore.Data;
 using BookStore.Models;
 
 namespace BookStore
 {
     public class BooksController : Controller
     {
-        private readonly BookStoreContext _context;
-
-        public BooksController(BookStoreContext context)
+      
+        public BooksController()
         {
-            _context = context;
+           
         }
 
         // GET: Books
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Books.Where(x=> x.IsActive).ToListAsync());
+            return View();
         }
 
         // GET: Books/Details/5
@@ -33,14 +31,10 @@ namespace BookStore
                 return NotFound();
             }
 
-            var book = await _context.Books
-                .FirstOrDefaultAsync(m => m.BookID == id);
-            if (book == null)
-            {
-                return NotFound();
-            }
+          
+           
 
-            return View(book);
+            return View();
         }
 
         // GET: Books/Create
@@ -59,8 +53,7 @@ namespace BookStore
             if (ModelState.IsValid)
             {
                 book.IsActive = true;
-                _context.Add(book);
-                await _context.SaveChangesAsync();
+               
                 return RedirectToAction(nameof(Index));
             }
             return View(book);
@@ -74,12 +67,8 @@ namespace BookStore
                 return NotFound();
             }
 
-            var book = await _context.Books.FindAsync(id);
-            if (book == null)
-            {
-                return NotFound();
-            }
-            return View(book);
+           
+            return View();
         }
 
         // POST: Books/Edit/5
@@ -98,19 +87,11 @@ namespace BookStore
             {
                 try
                 {
-                    _context.Update(book);
-                    await _context.SaveChangesAsync();
+                  
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!BookExists(book.BookID))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                   
                 }
                 return RedirectToAction(nameof(Index));
             }
@@ -125,14 +106,10 @@ namespace BookStore
                 return NotFound();
             }
 
-            var book = await _context.Books
-                .FirstOrDefaultAsync(m => m.BookID == id);
-            if (book == null)
-            {
-                return NotFound();
-            }
+            
+            
 
-            return View(book);
+            return View();
         }
 
         // POST: Books/Delete/5
@@ -140,16 +117,11 @@ namespace BookStore
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var book = await _context.Books.FindAsync(id);
-            book.IsActive = false;
-            _context.Books.Update(book);
-            await _context.SaveChangesAsync();
+           
+           
             return RedirectToAction(nameof(Index));
         }
 
-        private bool BookExists(int id)
-        {
-            return _context.Books.Any(e => e.BookID == id);
-        }
+      
     }
 }
