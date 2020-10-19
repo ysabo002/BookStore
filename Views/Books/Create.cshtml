@@ -1,25 +1,11 @@
 ﻿
+
 @model BookStore.ViewModels.BookViewModel
 
-
+@{
     ViewData["Title"] = "Create";
-    { WebImage photo = null;
-        var newFileName = "";
-        var imagePath = "";
+}
 
-        if (IsPost)
-        {
-            photo = WebImage.GetImageFromRequest();
-            if (photo != null)
-            {
-                newFileName = Guid.NewGuid().ToString() + "_" +
-                    Path.GetFileName(photo.FileName);
-                imagePath = "images\" + newFileName;
-
-                photo.Save("~\" + imagePath);
-            }
-        }
-    }
 
 
 <h1>Create</h1>
@@ -28,7 +14,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="Create" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Title" class="control-label"></label>
@@ -75,27 +61,27 @@
                 <input asp-for="Quantity" class="form-control" />
                 <span asp-validation-for="Quantity" class="text-danger"></span>
             </div>
-            <div>
-                    <fieldset>
-                        <legend> Upload Image </legend>
-                        <label for="Image">Image</label>
-                        <input type="file" name="Image" />
-                        <br />
-                      
-                    </fieldset>
+            <div class="form-group">
+                <label asp-for="Cover" class="control-label">Upload Cover Image</label>
+                <input asp-for="Cover" class="form-control" />
+                <span asp-validation-for="Cover" class="text-danger"></span>
+            </div>
                 
-               
-               
+             
+                <div>
+
+                </div>
+
                 <div class="form-group">
                     <input type="submit" value="Create" class="btn btn-primary" />
                 </div>
-         </form>
-            
+</form>
 
-    <div>
-        <a asp-action="Index">Back to List</a>
-    </div>
 
-    @section Scripts {
-        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    }
+        <div>
+            <a asp-action="Index">Back to List</a>
+        </div>
+
+        @section Scripts {
+            @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+        }

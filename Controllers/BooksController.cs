@@ -3,21 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using BookStore.Models;
 using System.Net.Http;
 using BookStore.ViewModels;
-
+using Microsoft.AspNetCore.Hosting;
+using System.IO;
 
 namespace BookStore
 {
     public class BooksController : Controller
     {
         public string BaseUrl = "https://localhost:44357/api/";
-        public BooksController()
-        {
+        private readonly IWebHostEnvironment _hostEnvironment;
 
+        public BooksController(IWebHostEnvironment hostEnvironment)
+        {
+            this._hostEnvironment = hostEnvironment;
         }
 
         // GET: Books
@@ -96,6 +97,20 @@ namespace BookStore
             if (ModelState.IsValid)
             {
                 book.IsActive = true;
+
+                //snippet of code for saving the cover image to wwwroot/Images
+
+                string wwwRootPath = _hostEnvironment.WebRootPath;
+                string fileName = Path.GetFileNameWithoutExtension(book.Cover.FileName);
+                string extension = Path.GetExtension(book.Cover.FileName);
+                book.ImageName = fileName = fileName + DateTime.Now.ToString("yymmssffff") + extension;
+                string path = Path.Combine(wwwRootPath +"/Images/", fileName);
+                using (var fileStream = new FileStream(path, FileMode.Create))
+                {
+                    await book.Cover.CopyToAsync(fileStream);
+                }
+                //Insert record
+
                 using (var client = new HttpClient())
                 {
                     client.BaseAddress = new Uri(BaseUrl);
