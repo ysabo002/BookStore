@@ -3,7 +3,6 @@
 @{
     ViewData["Title"] = "Index";
 }
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.css">
 
 <h1>Index</h1>
 
@@ -41,7 +40,7 @@
                 @Html.DisplayNameFor(model => model.Quantity)
             </th>
 
-            <th></th>
+            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
@@ -76,15 +75,6 @@
                     @Html.DisplayFor(modelItem => item.Quantity)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.CreatedDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.LastUpdatedDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.IsActive)
-                </td>
-                <td>
                     <a asp-action="Edit" asp-route-id="@item.BookID">Edit</a> |
                     <a asp-action="Details" asp-route-id="@item.BookID">Details</a> |
                     <a asp-action="Delete" asp-route-id="@item.BookID">Delete</a>
@@ -93,6 +83,8 @@
         }
     </tbody>
 </table>
-<script src="~/js/Books/index.js"></script>
-<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.js"></script>
+@section Scripts {
+    <script src="~/js/Books/index.js"></script>
+
+}
 
