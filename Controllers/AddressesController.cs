@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
-using BookStore.Models;
+using BookStore.ViewModels;
 
 namespace BookStore
 {
@@ -50,7 +50,7 @@ namespace BookStore
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("AddressID,Address1,Address2,ZipCode,City,State,Preferred,CreatedDate,LastUpdatedDate,IsActive")] Address address)
+        public async Task<IActionResult> Create([Bind("AddressID,Address1,Address2,ZipCode,City,State,Preferred,CreatedDate,LastUpdatedDate,IsActive")] AddressViewModel address)
         {
             if (ModelState.IsValid)
             {
@@ -78,7 +78,7 @@ namespace BookStore
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("AddressID,Address1,Address2,ZipCode,City,State,Preferred,CreatedDate,LastUpdatedDate,IsActive")] Address address)
+        public async Task<IActionResult> Edit(int id, [Bind("AddressID,Address1,Address2,ZipCode,City,State,Preferred,CreatedDate,LastUpdatedDate,IsActive")] AddressViewModel address)
         {
             if (id != address.AddressID)
             {

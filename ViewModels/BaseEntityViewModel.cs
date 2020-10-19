@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace BookStore.Models
+namespace BookStore.ViewModels
 {
-    public class BaseEntity
+    public class BaseEntityViewModel
     {
         public DateTime CreatedDate { get; set; }
         public DateTime LastUpdatedDate { get; set; }

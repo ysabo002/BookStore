@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace BookStore.Models
+namespace BookStore.ViewModels
 {
-    public class Book : BaseEntity
+    public class BookViewModel : BaseEntityViewModel
     {
         public int BookID { get; set; }
         public string Title { get; set; }
@@ -17,10 +18,7 @@ namespace BookStore.Models
         public double RatingAve { get; set; }
         public byte[] Cover { get; set; } //to storage cover image
 
-        public List<Review> Reviews { get; set; }
-        public List<BookShoppingCart> BookShoppingCarts { get; set; } //aux list for relationship many to many
-        public List<BookBuyer> BookBuyers { get; set; } //aux list for relationship many to many
-        public List<BookSaveForLater> BookSaveForLaters { get; set; }
+       
         public DateTime CreationDate { get; set; }
         public int Quantity { get; set; }
 

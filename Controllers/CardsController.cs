@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using BookStore.Models;
+using BookStore.ViewModels;
 
 namespace BookStore
 {
@@ -44,7 +44,7 @@ namespace BookStore
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CardID,CardNumber,SecCode,Preferred,CreatedDate,LastUpdatedDate,IsActive")] Card card)
+        public async Task<IActionResult> Create([Bind("CardID,CardNumber,SecCode,Preferred,CreatedDate,LastUpdatedDate,IsActive")] CardViewModel card)
         {
             if (ModelState.IsValid)
             {
@@ -71,7 +71,7 @@ namespace BookStore
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("CardID,CardNumber,SecCode,Preferred,CreatedDate,LastUpdatedDate,IsActive")] Card card)
+        public async Task<IActionResult> Edit(int id, [Bind("CardID,CardNumber,SecCode,Preferred,CreatedDate,LastUpdatedDate,IsActive")] CardViewModel card)
         {
             if (id != card.CardID)
             {

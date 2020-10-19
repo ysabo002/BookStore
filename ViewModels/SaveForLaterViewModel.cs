@@ -3,20 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace BookStore.Models
+namespace BookStore.ViewModels
 {
-    public class SaveForLater : BaseEntity
+    public class SaveForLaterViewModel : BaseEntityViewModel
     {
         public int SaveForLaterID { get; set; }
-        public List<Book> BookList { get; set; }
+        public List<BookViewModel> BookList { get; set; }
         public int BuyerID { get; set; }
 
         public DateTime Date { get; set; }
 
-        public List<BookSaveForLater> BookSaveForLaters { get; set; } //aux list for relationship many to many
+      
 
 
         // Navigation Properties
-        public Buyer Buyer { get; set; } //nav prop
+        public BuyerViewModel Buyer { get; set; } //nav prop
     }
 }

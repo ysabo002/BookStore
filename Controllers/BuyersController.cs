@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BookStore.Models;
+using BookStore.ViewModels;
 
 namespace BookStore
 {
@@ -49,7 +50,7 @@ namespace BookStore
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("BuyerID,Name,Email,Nickname,CreatedDate,LastUpdatedDate,IsActive")] Buyer buyer)
+        public async Task<IActionResult> Create([Bind("BuyerID,Name,Email,Nickname,CreatedDate,LastUpdatedDate,IsActive")] BuyerViewModel buyer)
         {
             if (ModelState.IsValid)
             {
@@ -77,7 +78,7 @@ namespace BookStore
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("BuyerID,Name,Email,Nickname,CreatedDate,LastUpdatedDate,IsActive")] Buyer buyer)
+        public async Task<IActionResult> Edit(int id, [Bind("BuyerID,Name,Email,Nickname,CreatedDate,LastUpdatedDate,IsActive")] BuyerViewModel buyer)
         {
             if (id != buyer.BuyerID)
             {
