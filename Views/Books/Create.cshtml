@@ -1,8 +1,26 @@
-﻿@model BookStore.ViewModels.BookViewModel
+﻿
+@model BookStore.ViewModels.BookViewModel
 
-@{
+
     ViewData["Title"] = "Create";
-}
+    { WebImage photo = null;
+        var newFileName = "";
+        var imagePath = "";
+
+        if (IsPost)
+        {
+            photo = WebImage.GetImageFromRequest();
+            if (photo != null)
+            {
+                newFileName = Guid.NewGuid().ToString() + "_" +
+                    Path.GetFileName(photo.FileName);
+                imagePath = "images\" + newFileName;
+
+                photo.Save("~\" + imagePath);
+            }
+        }
+    }
+
 
 <h1>Create</h1>
 
@@ -57,18 +75,27 @@
                 <input asp-for="Quantity" class="form-control" />
                 <span asp-validation-for="Quantity" class="text-danger"></span>
             </div>
-           
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+            <div>
+                    <fieldset>
+                        <legend> Upload Image </legend>
+                        <label for="Image">Image</label>
+                        <input type="file" name="Image" />
+                        <br />
+                      
+                    </fieldset>
+                
+               
+               
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+         </form>
+            
+
+    <div>
+        <a asp-action="Index">Back to List</a>
     </div>
-</div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    }
