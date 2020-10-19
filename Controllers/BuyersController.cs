@@ -7,22 +7,46 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BookStore.Models;
 using BookStore.ViewModels;
+using System.Net.Http;
 
 namespace BookStore
 {
     public class BuyersController : Controller
     {
-        
 
+        public string BaseUrl = "https://localhost:44357/api/";
         public BuyersController()
         {
-           
+
         }
 
         // GET: Buyers
         public async Task<IActionResult> Index()
         {
-            return View();
+            var buyers = new List<BuyerViewModel>();
+
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(BaseUrl);
+                //HTTP GET
+                Task<HttpResponseMessage> responseTask = client.GetAsync("Buyers");
+                responseTask.Wait();
+
+                var result = responseTask.Result;
+
+                if (result.IsSuccessStatusCode)
+                {
+                    var readTask = await result.Content.ReadAsAsync<IList<BuyerViewModel>>();
+
+                    buyers = readTask.ToList();
+
+                    return View(buyers);
+                }
+
+                ModelState.AddModelError(string.Empty, "Server error. Please contact administrator.");
+
+            }
+            return View(buyers);
         }
 
         // GET: Buyers/Details/5
@@ -33,10 +57,27 @@ namespace BookStore
                 return NotFound();
             }
 
-            
-           
+            var buyer = new BuyerViewModel();
 
-            return View();
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(BaseUrl);
+                //HTTP GET
+                HttpResponseMessage responseTask = await client.GetAsync($"Buyers/{id.Value}");
+
+                if (responseTask.IsSuccessStatusCode)
+                {
+                    var readTask = await responseTask.Content.ReadAsAsync<BuyerViewModel>();
+
+                    buyer = readTask;
+
+                    return View(buyer);
+                }
+
+                ModelState.AddModelError(string.Empty, "Server error. Please contact administrator.");
+
+            }
+            return View(buyer);
         }
 
         // GET: Buyers/Create
@@ -54,8 +95,15 @@ namespace BookStore
         {
             if (ModelState.IsValid)
             {
-            
-                return RedirectToAction(nameof(Index));
+                buyer.IsActive = true;
+                using (var client = new HttpClient())
+                {
+                    client.BaseAddress = new Uri(BaseUrl);
+                    var responseTask = await client.PostAsJsonAsync("Buyers", buyer);
+                    return RedirectToAction(nameof(Index));
+
+                }
+
             }
             return View(buyer);
         }
@@ -68,9 +116,27 @@ namespace BookStore
                 return NotFound();
             }
 
-           
-          
-            return View();
+            var buyer = new BuyerViewModel();
+
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(BaseUrl);
+                //HTTP GET
+                HttpResponseMessage responseTask = await client.GetAsync($"Buyers/{id.Value}");
+
+                if (responseTask.IsSuccessStatusCode)
+                {
+                    var readTask = await responseTask.Content.ReadAsAsync<BuyerViewModel>();
+
+                    buyer = readTask;
+
+                    return View(buyer);
+                }
+
+                ModelState.AddModelError(string.Empty, "Server error. Please contact administrator.");
+
+            }
+            return View(buyer);
         }
 
         // POST: Buyers/Edit/5
@@ -89,11 +155,16 @@ namespace BookStore
             {
                 try
                 {
-                  
+                    using (var client = new HttpClient())
+                    {
+                        client.BaseAddress = new Uri(BaseUrl);
+                        var responseTask = await client.PutAsJsonAsync($"Buyers/{id}", buyer);
+                        return RedirectToAction(nameof(Index));
+                    }
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    
+
                 }
                 return RedirectToAction(nameof(Index));
             }
@@ -108,10 +179,27 @@ namespace BookStore
                 return NotFound();
             }
 
-           
-            
+            var buyer = new BuyerViewModel();
 
-            return View();
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(BaseUrl);
+                //HTTP GET
+                HttpResponseMessage responseTask = await client.GetAsync($"Buyers/{id.Value}");
+
+                if (responseTask.IsSuccessStatusCode)
+                {
+                    var readTask = await responseTask.Content.ReadAsAsync<BuyerViewModel>();
+
+                    buyer = readTask;
+
+                    return View(buyer);
+                }
+
+                ModelState.AddModelError(string.Empty, "Server error. Please contact administrator.");
+
+            }
+            return View(buyer);
         }
 
         // POST: Buyers/Delete/5
@@ -119,10 +207,22 @@ namespace BookStore
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-           
-            return RedirectToAction(nameof(Index));
-        }
 
-       
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(BaseUrl);
+                //HTTP GET
+                HttpResponseMessage responseTask = await client.DeleteAsync($"Buyers/{id}");
+
+                if (responseTask.IsSuccessStatusCode)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+
+                return RedirectToAction("Delete");
+            }
+
+
+        }
     }
 }
