@@ -11,13 +11,10 @@ namespace BookStore.ViewModels
     {
         
         public int BuyerID { get; set; }
-        [Required]
         public string Name { get; set; }
-        [Required]
         public List<CardViewModel> CardList { get; set; }
         public List<AddressViewModel> AddressList { get; set; }
         public string Email { get; set; }
-        [Required]
         public string Nickname { get; set; }
 
     }

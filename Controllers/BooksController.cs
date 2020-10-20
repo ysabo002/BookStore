@@ -100,20 +100,34 @@ namespace BookStore
 
                 //snippet of code for saving the cover image to wwwroot/Images
 
-                string wwwRootPath = _hostEnvironment.WebRootPath;
-                string fileName = Path.GetFileNameWithoutExtension(book.Cover.FileName);
-                string extension = Path.GetExtension(book.Cover.FileName);
-                book.ImageName = fileName = fileName + DateTime.Now.ToString("yymmssffff") + extension;
-                string path = Path.Combine(wwwRootPath +"/Images/", fileName);
-                using (var fileStream = new FileStream(path, FileMode.Create))
-                {
-                    await book.Cover.CopyToAsync(fileStream);
-                }
+                //string wwwRootPath = _hostEnvironment.WebRootPath;
+                //string fileName = Path.GetFileNameWithoutExtension(book.Cover.FileName);
+                //string extension = Path.GetExtension(book.Cover.FileName);
+                //book.ImageName = fileName = fileName + DateTime.Now.ToString("yymmssffff") + extension;
+                //string path = Path.Combine(wwwRootPath +"/Images/", fileName);
+                //using (var fileStream = new FileStream(path, FileMode.Create))
+                //{
+                //    await book.Cover.CopyToAsync(fileStream);
+                //}
                 //Insert record
 
                 using (var client = new HttpClient())
                 {
                     client.BaseAddress = new Uri(BaseUrl);
+                    //var bookEntity = new Book()
+                    //{
+                    //    ImageName = book.ImageName,
+                    //    CreationDate = DateTime.UtcNow,
+                    //    LastUpdatedDate = DateTime.UtcNow,
+                    //    Cover = book.Cover,
+                    //    Genre = book.Genre,
+                    //    Author = book.Author,
+                    //    Isbn = book.Isbn,
+                    //    Price = book.Price,
+                    //    Quantity = book.Quantity,
+                    //    RatingAve = book.RatingAve,
+                    //    Title = book.Title
+                    //};
                     var responseTask = await client.PostAsJsonAsync("Books", book);
                     return RedirectToAction(nameof(Index));
 
@@ -219,7 +233,7 @@ namespace BookStore
         }
 
         // POST: Books/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpDelete, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {

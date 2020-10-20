@@ -7,9 +7,9 @@ namespace BookStore.ViewModels
     {
         public int CardID { get; set; }
         public string CardNumber { get; set; }
-        [Required]
+        
         public int SecCode { get; set; }
-        [Required]
+        
         public bool Preferred { get; set; }
 
         public int BuyerID { get; set; }
