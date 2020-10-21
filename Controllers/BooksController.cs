@@ -8,6 +8,8 @@ using System.Net.Http;
 using BookStore.ViewModels;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
+using Microsoft.Extensions.Hosting;
+
 
 namespace BookStore
 {
@@ -98,18 +100,20 @@ namespace BookStore
             {
                 book.IsActive = true;
 
-                //snippet of code for saving the cover image to wwwroot/Images
+                ////snippet of code for saving the cover image to wwwroot/Images
 
-                //string wwwRootPath = _hostEnvironment.WebRootPath;
-                //string fileName = Path.GetFileNameWithoutExtension(book.Cover.FileName);
-                //string extension = Path.GetExtension(book.Cover.FileName);
-                //book.ImageName = fileName = fileName + DateTime.Now.ToString("yymmssffff") + extension;
-                //string path = Path.Combine(wwwRootPath +"/Images/", fileName);
-                //using (var fileStream = new FileStream(path, FileMode.Create))
-                //{
-                //    await book.Cover.CopyToAsync(fileStream);
-                //}
-                //Insert record
+                string wwwrootpath = _hostEnvironment.WebRootPath;
+                string filename = String.Concat(DateTime.Now.ToString("yyyMMddHHmm"), book.Cover.FileName);
+                string path = String.Concat(wwwrootpath + "/images/", filename);
+                
+                //string extension = path.getextension(book.cover.filename);
+                book.ImageName = filename;
+
+                using (var filestream = new FileStream(path, FileMode.Create, FileAccess.ReadWrite))
+                {
+                    await book.Cover.CopyToAsync(filestream);
+                }
+                // insert record
 
                 using (var client = new HttpClient())
                 {
@@ -128,6 +132,7 @@ namespace BookStore
                     //    RatingAve = book.RatingAve,
                     //    Title = book.Title
                     //};
+                    book.Cover = null;
                     var responseTask = await client.PostAsJsonAsync("Books", book);
                     return RedirectToAction(nameof(Index));
 
@@ -174,7 +179,7 @@ namespace BookStore
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("BookID,Title,Author,Genre,Isbn,Seller,Price,RatingAve,CreationDate,Quantity,CreatedDate,LastUpdatedDate,IsActive")] BookViewModel book)
+        public async Task<IActionResult> Edit(int id, [Bind("BookID,Title,Author,Genre,Isbn,Seller,Price,RatingAve,Cover,CreationDate,Quantity,CreatedDate,LastUpdatedDate,IsActive")] BookViewModel book)
         {
             if (id != book.BookID)
             {
@@ -183,6 +188,7 @@ namespace BookStore
 
             if (ModelState.IsValid)
             {
+                book.LastUpdatedDate = DateTime.UtcNow;
                 try
                 {
                     using (var client = new HttpClient())
@@ -219,10 +225,11 @@ namespace BookStore
 
                 if (responseTask.IsSuccessStatusCode)
                 {
+
                     var readTask = await responseTask.Content.ReadAsAsync<BookViewModel>();
 
                     book = readTask;
-
+                    
                     return View(book);
                 }
 
@@ -233,7 +240,7 @@ namespace BookStore
         }
 
         // POST: Books/Delete/5
-        [HttpDelete, ActionName("Delete")]
+        [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
@@ -245,7 +252,16 @@ namespace BookStore
 
                 if (responseTask.IsSuccessStatusCode)
                 {
-                    return RedirectToAction(nameof(Index)); 
+                    var readTask = await responseTask.Content.ReadAsAsync<BookViewModel>();
+                    var book = readTask;
+                    if (book.ImageName != null && book.ImageName != "")
+                    {
+                        string wwwrootpath = _hostEnvironment.WebRootPath;
+                        string filename = book.ImageName;
+                        string path = String.Concat(wwwrootpath + "/images/", filename);
+                        System.IO.File.Delete(path);
+                    }
+                    return RedirectToAction(nameof(Index));
                 }
 
                 return RedirectToAction("Delete");

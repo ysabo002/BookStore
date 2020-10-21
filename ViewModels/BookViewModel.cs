@@ -28,7 +28,6 @@ namespace BookStore.ViewModels
         
         public double RatingAve { get; set; }
         
-        [NotMapped]
         public IFormFile Cover { get; set; }//to storage cover image
          
         public string ImageName { get; set; }  //name of the cover file
