@@ -44,6 +44,10 @@ namespace BookStore.ViewModels
         public int Quantity { get; set; }
 
 
+       
+
 
     }
 }
+
+

@@ -18,6 +18,8 @@ namespace BookStore
         public string BaseUrl = "https://localhost:44357/api/";
         private readonly IWebHostEnvironment _hostEnvironment;
 
+        public IEnumerable<BookViewModel> TopSellers { get; private set; }
+
         public BooksController(IWebHostEnvironment hostEnvironment)
         {
             this._hostEnvironment = hostEnvironment;
@@ -27,6 +29,7 @@ namespace BookStore
         public async Task<IActionResult> Index()
         {
             var books = new List<BookViewModel>();
+            
 
             using (var client = new HttpClient())
             {
@@ -43,12 +46,19 @@ namespace BookStore
 
                     books = readTask.ToList();
 
+                    TopSellers = books.OrderByDescending(i => i.RatingAve).Take(5);
+                    ViewBag.TopSellers = TopSellers;
+
                     return View(books);
                 }
 
                 ModelState.AddModelError(string.Empty, "Server error. Please contact administrator.");
 
             }
+
+            TopSellers = books.OrderByDescending(i => i.RatingAve).Take(5);
+            ViewBag.TopSellers = TopSellers;
+
             return View(books);
         }
 
