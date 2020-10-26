@@ -6,6 +6,9 @@
     <title>@ViewData["Title"] - BookStore</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <script src="https://kit.fontawesome.com/c666cea2c3.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="">
+    <script src="https://kit.fontawesome.com/ee8942593a.js" crossorigin="anonymous"></script>
     <!--DataTable style-->
     <link href="~/lib/datatables/css/jquery.dataTables.css" rel="stylesheet" />
 </head>
@@ -37,13 +40,13 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="SaveForLaters" asp-action="Index">SaveForLater</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="ShoppingCarts" asp-action="Index">ShoppingCart</a>
-                        </li>
 
                     </ul>
+
                 </div>
-            </div>
+                <div class="nav-item">
+                    <a class="nav-link text-dark fas fa-shopping-cart fa-3x float-right link-list-item" style="margin-right:auto !important; color:dimgray" asp-area="" asp-controller="ShoppingCarts" asp-action="Index"></a>
+                </div>
         </nav>
     </header>
     <div class="container">

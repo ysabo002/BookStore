@@ -18,19 +18,22 @@
 <div class="row">
     <div class="col-md-2">
 
-        <h3>Top Sellers</h3>
-        <ul>
+        
+        <div>
+            <h5 style="text-align-last:center !important">Top Sellers </h5>
             @foreach (var item in topSellers)
             {
-                //this is a loop for showing my list of topSellers, after I casted the list above
-                <li><img src="~/Images/@item.ImageName" width="50" height="65" /></li>
+                <ul>
+                    @*this is a loop for showing my list of topSellers, after I casted the list above*@
+                    <span style="align-content:center !important"><img src="~/Images/@item.ImageName" width="50" height="65" /></span>
 
-                <a asp-action="Details" asp-route-id="@item.BookID">@item.Title</a>
-
-
+                </ul>
+                <ul>
+                    <a asp-action="Details" asp-route-id="@item.BookID">@item.Title</a>
+                </ul>
 
             }
-        </ul>
+        </div>
     </div>
     <div class="col-md-10">
         <p>
@@ -107,11 +110,12 @@
                         <td hidden>
                             @Html.DisplayFor(modelItem => item.Quantity)
                         </td>
-                        <td class="rowStyle">
-                            <a asp-action="Edit" asp-route-id="@item.BookID">Edit</a> |
-                            <a asp-action="Details" asp-route-id="@item.BookID">Details</a> |
-                            <a asp-action="Delete" asp-route-id="@item.BookID">Delete</a> |
-                            <a asp-action="AddToCart" asp-route-id="@item.BookID">Add to Cart</a>
+                        <td class="rowStyle col-md-2">
+                            <a asp-action="Edit" asp-route-id="@item.BookID" hidden>Edit</a>
+                            <a asp-action="Details" asp-route-id="@item.BookID">Details</a> <br>
+                            <a asp-action="Delete" asp-route-id="@item.BookID" >Delete</a> 
+                            <a asp-action="AddToCart" asp-route-id="@item.BookID">Add to Cart</a><br>
+                            <a asp-action="SaveForLater" asp-route-id="@item.BookID">Save for Later</a><br>
                         </td>
                     </tr>
                 }
