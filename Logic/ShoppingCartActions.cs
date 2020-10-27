@@ -17,6 +17,7 @@ namespace BookStore.Logic
 
         public void AddToCart(int id)
         {
+            //many bugs rn tryng to figure out how to fix them
             // Retrieve the product from the database.           
             ShoppingCartId = GetCartId();
 
