@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using BookStore.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace BookStore.Logic
 {
@@ -19,30 +20,30 @@ namespace BookStore.Logic
             // Retrieve the product from the database.           
             ShoppingCartId = GetCartId();
 
-            var cartItem = _db.ShoppingCartItems.SingleOrDefault(
+            var ShoppingCart = _db.ShoppingCartItems.SingleOrDefault(
                 c => c.CartId == ShoppingCartId
                 && c.ProductId == id);
-            if (cartItem == null)
+            if (ShoppingCart == null)
             {
                 // Create a new cart item if no cart item exists.                 
-                cartItem = new CartItem
+                ShoppingCart = new ShoppingCart
                 {
-                    ItemId = Guid.NewGuid().ToString(),
-                    ProductId = id,
-                    CartId = ShoppingCartId,
-                    Product = _db.Products.SingleOrDefault(
+                    BookShoppingCarts = Guid.NewGuid().ToString(),
+                    Books = id,
+                    ShoppingCartID = ShoppingCartId,
+                    Books = _db.Products.SingleOrDefault(
                    p => p.ProductID == id),
                     Quantity = 1,
-                    DateCreated = DateTime.Now
+
                 };
 
-                _db.ShoppingCartItems.Add(cartItem);
+                _db.ShoppingCartItems.Add(ShoppingCart);
             }
             else
             {
                 // If the item does exist in the cart,                  
                 // then add one to the quantity.                 
-                cartItem.Quantity++;
+                ShoppingCart.Quantity++;
             }
             _db.SaveChanges();
         }
@@ -74,12 +75,25 @@ namespace BookStore.Logic
             return HttpContext.Current.Session[CartSessionKey].ToString();
         }
 
-        public List<CartItem> GetCartItems()
+        public List<ShoppingCart> GetCartItems()
         {
             ShoppingCartId = GetCartId();
 
             return _db.ShoppingCartItems.Where(
                 c => c.CartId == ShoppingCartId).ToList();
+        }
+        public decimal GetTotal()
+        {
+            ShoppingCartId = GetCartId();
+            // Multiply product price by quantity of that product to get        
+            // the current price for each of those products in the cart.  
+            // Sum all product price totals to get the cart total.   
+            decimal? total = decimal.Zero;
+            total = (decimal?)(from ShoppingCart in _db.ShoppingCartItems
+                               where ShoppingCart.ShoppingCartId == ShoppingCartId
+                               select (int?)ShoppingCart.Quantity *
+                               ShoppingCart.Product.UnitPrice).Sum();
+            return total ?? decimal.Zero;
         }
     }
 }
