@@ -1,16 +1,19 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
-namespace BookStore.Models
+namespace BookStore.ViewModels
 {
-    public class Card : BaseEntity
+    public class CardViewModel : BaseEntityViewModel
     {
         public int CardID { get; set; }
         public string CardNumber { get; set; }
+        
         public int SecCode { get; set; }
+        
         public bool Preferred { get; set; }
 
         public int BuyerID { get; set; }
-        public Buyer Buyer { get; set; } //nav prop
+        public BuyerViewModel Buyer { get; set; } //nav prop
 
        
     }

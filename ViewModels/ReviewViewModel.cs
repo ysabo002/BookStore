@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace BookStore.Models
+namespace BookStore.ViewModels
 {
-    public class Review : BaseEntity
+    public class ReviewViewModel : BaseEntityViewModel
     {
         #region Object properties
         public int ReviewID { get; set; }
@@ -18,8 +18,8 @@ namespace BookStore.Models
         #endregion
 
         #region Navigation Properties
-        public Buyer Buyer { get; set; } //nav prop
-        public Book Book { get; set; } //nav prop
+        public BuyerViewModel Buyer { get; set; } //nav prop
+        public BookViewModel Book { get; set; } //nav prop
         #endregion
 
 

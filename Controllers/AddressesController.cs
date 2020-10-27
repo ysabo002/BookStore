@@ -6,23 +6,47 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
-using BookStore.Models;
+using BookStore.ViewModels;
+using System.Net.Http;
 
 namespace BookStore
 {
     public class AddressesController : Controller
     {
-       
+        public string BaseUrl = "https://localhost:44357/api/";
 
         public AddressesController()
         {
-           
+
         }
 
         // GET: Addresses
         public async Task<IActionResult> Index()
         {
-            return View();
+            var addresses = new List<AddressViewModel>();
+
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(BaseUrl);
+                //HTTP GET
+                Task<HttpResponseMessage> responseTask = client.GetAsync("Addresses");
+                responseTask.Wait();
+
+                var result = responseTask.Result;
+
+                if (result.IsSuccessStatusCode)
+                {
+                    var readTask = await result.Content.ReadAsAsync<IList<AddressViewModel>>();
+
+                    addresses = readTask.ToList();
+
+                    return View(addresses);
+                }
+
+                ModelState.AddModelError(string.Empty, "Server error. Please contact administrator.");
+
+            }
+            return View(addresses);
         }
 
         // GET: Addresses/Details/5
@@ -33,10 +57,27 @@ namespace BookStore
                 return NotFound();
             }
 
-           
-            
+            var address = new AddressViewModel();
 
-            return View();
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(BaseUrl);
+                //HTTP GET
+                HttpResponseMessage responseTask = await client.GetAsync($"addresses/{id.Value}");
+
+                if (responseTask.IsSuccessStatusCode)
+                {
+                    var readTask = await responseTask.Content.ReadAsAsync<AddressViewModel>();
+
+                    address = readTask;
+
+                    return View(address);
+                }
+
+                ModelState.AddModelError(string.Empty, "Server error. Please contact administrator.");
+
+            }
+            return View(address);
         }
 
         // GET: Addresses/Create
@@ -50,13 +91,21 @@ namespace BookStore
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("AddressID,Address1,Address2,ZipCode,City,State,Preferred,CreatedDate,LastUpdatedDate,IsActive")] Address address)
+        public async Task<IActionResult> Create([Bind("AddressID,Address1,Address2,ZipCode,City,State,Preferred,CreatedDate,LastUpdatedDate,IsActive")] AddressViewModel address)
         {
             if (ModelState.IsValid)
             {
-               
-                return RedirectToAction(nameof(Index));
+                address.IsActive = true;
+                using (var client = new HttpClient())
+                {
+                    client.BaseAddress = new Uri(BaseUrl);
+                    var responseTask = await client.PostAsJsonAsync("Addresses", address);
+                    return RedirectToAction(nameof(Index));
+
+                }
+
             }
+
             return View(address);
         }
 
@@ -68,9 +117,27 @@ namespace BookStore
                 return NotFound();
             }
 
-            
-            
-            return View();
+            var address = new AddressViewModel();
+
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(BaseUrl);
+                //HTTP GET
+                HttpResponseMessage responseTask = await client.GetAsync($"Addresses/{id.Value}");
+
+                if (responseTask.IsSuccessStatusCode)
+                {
+                    var readTask = await responseTask.Content.ReadAsAsync<AddressViewModel>();
+
+                    address = readTask;
+
+                    return View(address);
+                }
+
+                ModelState.AddModelError(string.Empty, "Server error. Please contact administrator.");
+
+            }
+            return View(address);
         }
 
         // POST: Addresses/Edit/5
@@ -78,7 +145,7 @@ namespace BookStore
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("AddressID,Address1,Address2,ZipCode,City,State,Preferred,CreatedDate,LastUpdatedDate,IsActive")] Address address)
+        public async Task<IActionResult> Edit(int id, [Bind("AddressID,Address1,Address2,ZipCode,City,State,Preferred,CreatedDate,LastUpdatedDate,IsActive")] AddressViewModel address)
         {
             if (id != address.AddressID)
             {
@@ -87,7 +154,19 @@ namespace BookStore
 
             if (ModelState.IsValid)
             {
-               
+                try
+                {
+                    using (var client = new HttpClient())
+                    {
+                        client.BaseAddress = new Uri(BaseUrl);
+                        var responseTask = await client.PutAsJsonAsync($"Addresses/{id}", address);
+                        return RedirectToAction(nameof(Index));
+                    }
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+
+                }
                 return RedirectToAction(nameof(Index));
             }
             return View(address);
@@ -101,10 +180,27 @@ namespace BookStore
                 return NotFound();
             }
 
-           
-              
+            var address = new AddressViewModel();
 
-            return View();
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(BaseUrl);
+                //HTTP GET
+                HttpResponseMessage responseTask = await client.GetAsync($"Addresses/{id.Value}");
+
+                if (responseTask.IsSuccessStatusCode)
+                {
+                    var readTask = await responseTask.Content.ReadAsAsync<AddressViewModel>();
+
+                    address = readTask;
+
+                    return View(address);
+                }
+
+                ModelState.AddModelError(string.Empty, "Server error. Please contact administrator.");
+
+            }
+            return View(address);
         }
 
         // POST: Addresses/Delete/5
@@ -112,10 +208,22 @@ namespace BookStore
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-           
-            return RedirectToAction(nameof(Index));
-        }
 
-       
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(BaseUrl);
+                //HTTP GET
+                HttpResponseMessage responseTask = await client.DeleteAsync($"Addresses/{id}");
+
+                if (responseTask.IsSuccessStatusCode)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+
+                return RedirectToAction("Delete");
+            }
+
+
+        }
     }
 }

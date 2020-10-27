@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using BookStore.Models;
+using BookStore.ViewModels;
 
 namespace BookStore
 {
@@ -50,7 +50,7 @@ namespace BookStore
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ReviewID,BuyerID,BookID,CreationDate,Ratingtxt,Rating,CreatedDate,LastUpdatedDate,IsActive")] Review review)
+        public async Task<IActionResult> Create([Bind("ReviewID,BuyerID,BookID,CreationDate,Ratingtxt,Rating,CreatedDate,LastUpdatedDate,IsActive")] ReviewViewModel review)
         {
             if (ModelState.IsValid)
             {
@@ -82,7 +82,7 @@ namespace BookStore
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ReviewID,BuyerID,BookID,CreationDate,Ratingtxt,Rating,CreatedDate,LastUpdatedDate,IsActive")] Review review)
+        public async Task<IActionResult> Edit(int id, [Bind("ReviewID,BuyerID,BookID,CreationDate,Ratingtxt,Rating,CreatedDate,LastUpdatedDate,IsActive")] ReviewViewModel review)
         {
             if (id != review.ReviewID)
             {

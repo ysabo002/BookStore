@@ -27,7 +27,8 @@ namespace BookStore
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-           
+            services.AddRazorPages().AddRazorRuntimeCompilation();
+
 
         }
 
@@ -55,7 +56,7 @@ namespace BookStore
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Books}/{action=Index}/{id?}");
             });
         }
     }

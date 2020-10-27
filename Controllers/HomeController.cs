@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using BookStore.Models;
 
+
 namespace BookStore.Controllers
 {
     public class HomeController : Controller
