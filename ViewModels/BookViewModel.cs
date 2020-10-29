@@ -11,7 +11,7 @@ namespace BookStore.ViewModels
 {
     public class BookViewModel : BaseEntityViewModel
     {
-        
+
         public int BookID { get; set; }
         [Required]
         public string Title { get; set; }
@@ -30,17 +30,17 @@ namespace BookStore.ViewModels
         [Required]
         [DisplayFormat(DataFormatString = "{0:$#.##}")]
         public double Price { get; set; }
-       
+
 
         public double RatingAve { get; set; }
-        
+
         public IFormFile Cover { get; set; }//to storage cover image
-         
+
         public string ImageName { get; set; }  //name of the cover file
 
-        
         public DateTime CreationDate { get; set; }
-        
+        public string CreationDateString => CreationDate.ToShortDateString();
+
         public int Quantity { get; set; }
 
 

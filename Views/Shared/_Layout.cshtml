@@ -6,11 +6,11 @@
     <title>@ViewData["Title"] - BookStore</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
-    <script src="https://kit.fontawesome.com/c666cea2c3.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="">
-    <script src="https://kit.fontawesome.com/ee8942593a.js" crossorigin="anonymous"></script>
+
     <!--DataTable style-->
-    <link href="~/lib/datatables/css/jquery.dataTables.css" rel="stylesheet" />
+    @*<link href="~/lib/datatables/css/jquery.dataTables.css" rel="stylesheet" />*@
+<link href="~/lib/datatables/css/dataTables.bootstrap4.css" rel="stylesheet" />
 </head>
 <body>
     <header>
@@ -64,6 +64,8 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
     <!--DataTable scripts-->
     <script src="~/lib/datatables/js/jquery.dataTables.js"></script>
+    <script src="~/lib/datatables/js/dataTables.bootstrap4.js"></script>
+    <script src="https://use.fontawesome.com/releases/v5.15.1/js/all.js" data-auto-replace-svg="nest"></script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>
