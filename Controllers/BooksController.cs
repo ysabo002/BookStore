@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using BookStore.Models;
 using System.Net.Http;
 using BookStore.ViewModels;
+using Microsoft.AspNetCore.Hosting;
+using System.IO;
+using Microsoft.Extensions.Hosting;
 
 
 namespace BookStore
@@ -15,15 +16,20 @@ namespace BookStore
     public class BooksController : Controller
     {
         public string BaseUrl = "https://localhost:44357/api/";
-        public BooksController()
-        {
+        private readonly IWebHostEnvironment _hostEnvironment;
 
+        public IEnumerable<BookViewModel> TopSellers { get; private set; }
+
+        public BooksController(IWebHostEnvironment hostEnvironment)
+        {
+            this._hostEnvironment = hostEnvironment;
         }
 
         // GET: Books
         public async Task<IActionResult> Index()
         {
             var books = new List<BookViewModel>();
+            
 
             using (var client = new HttpClient())
             {
@@ -40,12 +46,19 @@ namespace BookStore
 
                     books = readTask.ToList();
 
+                    TopSellers = books.OrderByDescending(i => i.RatingAve).Take(5);
+                    ViewBag.TopSellers = TopSellers;
+
                     return View(books);
                 }
 
                 ModelState.AddModelError(string.Empty, "Server error. Please contact administrator.");
 
             }
+
+            TopSellers = books.OrderByDescending(i => i.RatingAve).Take(5);
+            ViewBag.TopSellers = TopSellers;
+
             return View(books);
         }
 
@@ -96,9 +109,40 @@ namespace BookStore
             if (ModelState.IsValid)
             {
                 book.IsActive = true;
+
+                ////snippet of code for saving the cover image to wwwroot/Images
+
+                string wwwrootpath = _hostEnvironment.WebRootPath;
+                string filename = String.Concat(DateTime.Now.ToString("yyyMMddHHmm"), book.Cover.FileName);
+                string path = String.Concat(wwwrootpath + "/images/", filename);
+                
+                //string extension = path.getextension(book.cover.filename);
+                book.ImageName = filename;
+
+                using (var filestream = new FileStream(path, FileMode.Create, FileAccess.ReadWrite))
+                {
+                    await book.Cover.CopyToAsync(filestream);
+                }
+                // insert record
+
                 using (var client = new HttpClient())
                 {
                     client.BaseAddress = new Uri(BaseUrl);
+                    //var bookEntity = new Book()
+                    //{
+                    //    ImageName = book.ImageName,
+                    //    CreationDate = DateTime.UtcNow,
+                    //    LastUpdatedDate = DateTime.UtcNow,
+                    //    Cover = book.Cover,
+                    //    Genre = book.Genre,
+                    //    Author = book.Author,
+                    //    Isbn = book.Isbn,
+                    //    Price = book.Price,
+                    //    Quantity = book.Quantity,
+                    //    RatingAve = book.RatingAve,
+                    //    Title = book.Title
+                    //};
+                    book.Cover = null;
                     var responseTask = await client.PostAsJsonAsync("Books", book);
                     return RedirectToAction(nameof(Index));
 
@@ -145,7 +189,7 @@ namespace BookStore
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("BookID,Title,Author,Genre,Isbn,Seller,Price,RatingAve,CreationDate,Quantity,CreatedDate,LastUpdatedDate,IsActive")] BookViewModel book)
+        public async Task<IActionResult> Edit(int id, [Bind("BookID,Title,Author,Genre,Isbn,Seller,Price,RatingAve,Cover,CreationDate,Quantity,CreatedDate,LastUpdatedDate,IsActive")] BookViewModel book)
         {
             if (id != book.BookID)
             {
@@ -154,6 +198,7 @@ namespace BookStore
 
             if (ModelState.IsValid)
             {
+                book.LastUpdatedDate = DateTime.UtcNow;
                 try
                 {
                     using (var client = new HttpClient())
@@ -190,10 +235,11 @@ namespace BookStore
 
                 if (responseTask.IsSuccessStatusCode)
                 {
+
                     var readTask = await responseTask.Content.ReadAsAsync<BookViewModel>();
 
                     book = readTask;
-
+                    
                     return View(book);
                 }
 
@@ -216,7 +262,16 @@ namespace BookStore
 
                 if (responseTask.IsSuccessStatusCode)
                 {
-                    return RedirectToAction(nameof(Index)); 
+                    var readTask = await responseTask.Content.ReadAsAsync<BookViewModel>();
+                    var book = readTask;
+                    if (book.ImageName != null && book.ImageName != "")
+                    {
+                        string wwwrootpath = _hostEnvironment.WebRootPath;
+                        string filename = book.ImageName;
+                        string path = String.Concat(wwwrootpath + "/images/", filename);
+                        System.IO.File.Delete(path);
+                    }
+                    return RedirectToAction(nameof(Index));
                 }
 
                 return RedirectToAction("Delete");

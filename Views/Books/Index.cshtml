@@ -1,90 +1,137 @@
 ﻿@model IEnumerable<BookStore.ViewModels.BookViewModel>
+@{
+    //viewBag is a dynamic way to see items from my controller, and it's been casted first
+    var topSellers = ViewBag.TopSellers as IEnumerable<BookStore.ViewModels.BookViewModel>;
+}
+
+<style>
+    .rowStyle {
+        vertical-align:middle !important
+    }
+</style>
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table" id="booksTable">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Author)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Genre)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Isbn)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Seller)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Price)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.RatingAve)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CreationDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Quantity)
-            </th>
+<div class="row">
+    <div class="col-md-2">
 
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Title)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Author)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Genre)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Isbn)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Seller)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Price)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.RatingAve)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CreationDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Quantity)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.BookID">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.BookID">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.BookID">Delete</a> |
-                    <a asp-action="Add to Cart" asp-route-id="@item.BookID">Cart</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+        
+        <div>
+            <h5 style="text-align-last:center !important">Top Sellers </h5>
+            @foreach (var item in topSellers)
+            {
+                <ul>
+                    @*this is a loop for showing my list of topSellers, after I casted the list above*@
+                    <span style="align-content:center !important"><img src="~/Images/@item.ImageName" width="50" height="65" /></span>
+
+                </ul>
+                <ul>
+                    <a asp-action="Details" asp-route-id="@item.BookID">@item.Title</a>
+                </ul>
+
+            }
+        </div>
+    </div>
+    <div class="col-md-10">
+        <p>
+            <button asp-action="Create">Create New</button>
+        </p>
+        <table class="table"  id="booksTable" style="align-content:center;text-align:center !important">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Cover)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Title)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Author)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Genre)
+                    </th>
+                    <th hidden>
+                        @Html.DisplayNameFor(model => model.Isbn)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Seller)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Price)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.RatingAve)
+                    </th>
+                    <th hidden>
+                        @Html.DisplayNameFor(model => model.CreationDate)
+                    </th>
+                    <th hidden>
+                        @Html.DisplayNameFor(model => model.Quantity)
+                    </th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            <img src="~/Images/@item.ImageName" width="200" height="250" />
+
+                        </td>
+                        <td class="rowStyle">
+                            @Html.DisplayFor(modelItem => item.Title)
+                        </td>
+                        <td class="rowStyle">
+                            @Html.DisplayFor(modelItem => item.Author)
+                        </td>
+                        <td class="rowStyle">
+                            @Html.DisplayFor(modelItem => item.Genre)
+                        </td>
+                        <td hidden>
+                            @Html.DisplayFor(modelItem => item.Isbn)
+                        </td>
+                        <td class="rowStyle">
+                            @Html.DisplayFor(modelItem => item.Seller)
+                        </td>
+                        <td class="rowStyle">
+                            @Html.DisplayFor(modelItem => item.Price)
+                        </td>
+                        <td class="rowStyle">
+                            @Html.DisplayFor(modelItem => item.RatingAve)
+                        </td>
+                        <td hidden>
+                            @Html.DisplayFor(modelItem => item.CreationDate)
+                        </td>
+                        <td hidden>
+                            @Html.DisplayFor(modelItem => item.Quantity)
+                        </td>
+                        <td class="rowStyle col-md-2">
+                            <a asp-action="Edit" asp-route-id="@item.BookID" hidden>Edit</a>
+                            <a asp-action="Details" asp-route-id="@item.BookID">Details</a> <br>
+                            <a asp-action="Delete" asp-route-id="@item.BookID" >Delete</a> 
+                            <a asp-action="AddToCart" asp-route-id="@item.BookID">Add to Cart</a><br>
+                            <a asp-action="SaveForLater" asp-route-id="@item.BookID">Save for Later</a><br>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+
+
+
+
 @section Scripts {
     <script src="~/js/Books/index.js"></script>
+    <script src="~/js/site.js"></script>
 }
+
 
