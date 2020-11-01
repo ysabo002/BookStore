@@ -31,7 +31,7 @@ namespace BookStore.ViewModels
         [DisplayFormat(DataFormatString = "{0:$#.##}")]
         public double Price { get; set; }
 
-
+        [DisplayName("Rating Ave")]
         public double RatingAve { get; set; }
 
         public IFormFile Cover { get; set; }//to storage cover image
