@@ -46,7 +46,7 @@ namespace BookStore
 
                     books = readTask.ToList();
 
-                    TopSellers = books.OrderByDescending(i => i.RatingAve).Take(5);
+                    TopSellers = books.OrderByDescending(i => i.RatingAve).Take(10);
                     ViewBag.TopSellers = TopSellers;
 
                     return View(books);

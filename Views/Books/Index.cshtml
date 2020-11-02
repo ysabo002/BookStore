@@ -3,6 +3,8 @@
     //viewBag is a dynamic way to see items from my controller, and it's been casted first
     var topSellers = ViewBag.TopSellers as IEnumerable<BookStore.ViewModels.BookViewModel>;
 }
+<link rel="stylesheet" href="css/style.css">
+
 
 <style>
     #booksTable th, #booksTable td {
@@ -10,49 +12,65 @@
     }
 </style>
 
+
 @{
     ViewData["Title"] = "Index";
 }
+<h5 style="width:100%">
 
-<div class="row">
-    <div class="card">
-        <div class="card-body">
-            <div class="row">
+    Browse Top Sellers
 
-                <div class="accordion" id="topRated">
-                    <div class="card">
+</h5>
+<br />
 
-                        <h5 class="mb-0">
-                            <button class="btn btn-outline-primary" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                View Top Sellers
-                            </button>
-                        </h5>
-                        <br />
+<div class="row" style="border:none">
 
-                        <div id="collapseOne" class="collapse show"  data-parent="#topRated">
-                            <div class="card-body">
-                                <ul style="list-style:none;display:inline-flex">
-                                    @foreach (var item in topSellers)
-                                    {
-                                        @*this is a loop for showing my list of topSellers, after I casted the list above*@
-                                        <li class="row" style="align-content:center !important; width:20%; vertical-align:middle !important">
-                                            <img class="col-md-4" src="~/Images/@item.ImageName" width="40" height="55" style="vertical-align:middle" />
-                                            <a class="col-md-8" asp-action="Details" asp-route-id="@item.BookID">@item.Title</a>
-                                        </li>
+    <div class="card" style="border:none">
 
 
-                                    }
-                                </ul>
+        <div class="row" style="width:100%; border:none !important">
 
-                            </div>
-                        </div>
-                    </div>
 
-                </div>
+           
+            <div class="swiper-container " style="width:100%;border:none !important">
+
+                <span class="swiper-wrapper" style="border:none">
+
+
+
+
+
+                    @foreach (var item in topSellers)
+                    {
+                        @*this is a loop for showing my list of topSellers, after I casted the list above*@
+
+                        <span class="swiper-slide" style= border: none !important">
+
+
+                            <span class="content border-bottom border-top box-shadow" style="list-style:none; display:inline-flex">
+
+                                <img src="~/Images/@item.ImageName" width="80" ; height="120" />
+                                <a asp-action="Details" asp-route-id="@item.BookID" style="width:auto; padding-left:20px">@item.Title</a>
+
+                            </span>
+                        </span>
+
+
+                    }
+
+
+
+
+                </span>
+                <div class="swiper-pagination"></div>
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
             </div>
         </div>
     </div>
+
 </div>
+
 <br />
 <p>
     <a asp-action="Create">Create New</a>
@@ -61,6 +79,7 @@
 
     <div class="card-body" style="width:100% !important">
         <div class="dataTables_wrapper">
+
 
 
             <table class="table table-striped" id="booksTable" style="align-content:center;text-align:center;width:100% !important">
@@ -81,7 +100,7 @@
                         <th hidden>
                             @Html.DisplayNameFor(model => model.Isbn)
                         </th>
-                        <th class="">
+                        <th class="" hidden>
                             @Html.DisplayNameFor(model => model.Seller)
                         </th>
                         <th class="">
@@ -119,7 +138,7 @@
                             <td hidden>
                                 @Html.DisplayFor(modelItem => item.Isbn)
                             </td>
-                            <td class="">
+                            <td class="" hidden>
                                 @Html.DisplayFor(modelItem => item.Seller)
                             </td>
                             <td class="">
@@ -152,13 +171,13 @@
 
                         </th>
                         <th class="">
-                            filter by Genre
+
 
                         </th>
                         <th hidden>
 
                         </th>
-                        <th class="">
+                        <th class="" hidden>
 
                         </th>
                         <th class="">
@@ -182,13 +201,25 @@
 </div>
 
 
-
-
-
-
-
 @section Scripts {
     <script src="~/js/Books/index.js"></script>
+    <script src="~/js/swiper-bundle.min.js"></script>
+    <script>
+        var swiper = new Swiper('.swiper-container', {
+            slidesPerView: 5,
+            spaceBetween: 10,
+            loop: true,
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+        });
+    </script>
+
     @*<script src="~/js/site.js"></script>*@
 }
 

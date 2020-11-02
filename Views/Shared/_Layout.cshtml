@@ -6,14 +6,18 @@
     <title>@ViewData["Title"] - BookStore</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
-    <link rel="stylesheet" href="">
+    <link href="~/css/style.css" rel="stylesheet" />
+    <link href="~/css/swiper-bundle.min.css" rel="stylesheet" />
+
 
     <!--DataTable style-->
     <link href="~/lib/datatables/css/jquery.dataTables.css" rel="stylesheet" />
     <link href="~/lib/datatables/css/dataTables.bootstrap4.css" rel="stylesheet" />
+
+
 </head>
 <body>
-    <header>
+    <header class="Header">
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
                 <a class="navbar-brand" asp-area="" asp-controller="Books" asp-action="Index">BookStore</a>
@@ -47,6 +51,7 @@
                 <div class="nav-item">
                     <a class="nav-link text-dark fas fa-shopping-cart fa-3x float-right link-list-item" style="margin-right:auto !important; color:dimgray" asp-area="" asp-controller="ShoppingCarts" asp-action="Index"></a>
                 </div>
+            </div>
         </nav>
     </header>
     <div class="container">
@@ -66,6 +71,7 @@
     <script src="~/lib/datatables/js/jquery.dataTables.js"></script>
     <script src="~/lib/datatables/js/dataTables.bootstrap4.js"></script>
     <script src="https://use.fontawesome.com/releases/v5.15.1/js/all.js" data-auto-replace-svg="nest"></script>
+    <script src="~/js/swiper-bundle.min.js"></script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>

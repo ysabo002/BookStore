@@ -23,8 +23,8 @@
                     for (var i = 0; i < dataCell; i++) {
                         stars += '<span class="fas text-warning fa-star fa-xs"></span>'
                     }
-                   
-                    return  stars + dataCell;
+
+                    return stars + dataCell;
 
                 },
             },
@@ -47,7 +47,7 @@
                 var column = this;
                 var columnIdx = column[0];
                 if (columnIdx == 2 || columnIdx == 3 || columnIdx == 5) {
-                    var select = $('<select style="background-color:lightslategray; border: none; border-radius: 8px;color: white; padding: 15px 32px; text - align: center; text - width: 100%; display: inline - block; font - size: 16px"> <option value="">' + "Filter by " + column.header().innerText + '</option></select>').appendTo($(column.footer()).empty())
+                    var select = $('<select style="background-color:lightslategray; border: none; border-radius: 8px;color: white; padding: 15px 5px; text - align: center; text - width: 50%; display: inline - block; font - size: 12px"> <option value="">' + "Filter by " + column.header().innerText + '</option></select>').appendTo($(column.footer()).empty())
                         .on('change', function () {
                             debugger
                             var value = $.fn.dataTable.util.escapeRegex($(this).val());
@@ -79,7 +79,7 @@
                     );
 
 
-                    var select = $('<select id="rating" style="background-color:lightslategray; border: none; border-radius: 8px;color: white; padding: 15px 32px; text - align: center; text - width: 100%; display: inline - block; font - size: 16px"> <option value="">' + "Filter by " + column.header().innerText + '</option></select>').appendTo($(column.footer()).empty())
+                    var select = $('<select id="rating" style="background-color:lightslategray; border: none; border-radius: 8px;color: white; padding: 15px 5px; text - align: center; text - width: 80%; display: inline - block; font - size: 16px"> <option value="">' + "Filter by " + column.header().innerText + '</option></select>').appendTo($(column.footer()).empty())
                         .on('change', function () {
 
                             var value = $.fn.dataTable.util.escapeRegex($(this).val());
@@ -89,7 +89,7 @@
                     var ratings = [1, 2, 3, 4, 5];
                     for (var i = 0; i < ratings.length; i++) {
                         var rate = ratings[i];
-                        select.append('<option value="' + rate + '"> More than ' + rate + ' star' + (rate > 1 ? 's' : '') + '</option>')
+                        select.append('<option value="' + rate + '">' + rate + ' star' + (rate > 1 ? 's' : '') + ' and up</option>')
                     }
 
                 }
