@@ -15,14 +15,16 @@
         columnDefs: [
             {
                 targets: [7],
-                class: "text-center",
+                class: "text-center ",
+
                 render: function (dataCell, display, dataRow) {
                     var stars = '';
 
                     for (var i = 0; i < dataCell; i++) {
                         stars += '<span class="fas text-warning fa-star fa-xs"></span>'
                     }
-                    return stars + " (" + dataCell + ")" ;
+                   
+                    return  stars + dataCell;
 
                 },
             },
@@ -44,8 +46,7 @@
             table.columns().every(function () {
                 var column = this;
                 var columnIdx = column[0];
-                if (columnIdx == 2 || columnIdx == 3 || columnIdx == 5)
-                {
+                if (columnIdx == 2 || columnIdx == 3 || columnIdx == 5) {
                     var select = $('<select style="background-color:lightslategray; border: none; border-radius: 8px;color: white; padding: 15px 32px; text - align: center; text - width: 100%; display: inline - block; font - size: 16px"> <option value="">' + "Filter by " + column.header().innerText + '</option></select>').appendTo($(column.footer()).empty())
                         .on('change', function () {
                             debugger
@@ -57,7 +58,7 @@
                         select.append('<option value="' + d + '">' + d + '</option>')
                     })
                 }
-                
+
 
                 else if (columnIdx == 7) {
                     /* Custom filtering function which will filter between a value and max rating */
@@ -96,10 +97,10 @@
                 table.columns.adjust().draw();
 
             })
-           
+
         }
-         
+
     });
-    
+
 
 });

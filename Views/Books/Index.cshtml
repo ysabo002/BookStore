@@ -19,17 +19,17 @@
         <div class="card-body">
             <div class="row">
 
-                <div class="accordion" id="accordionExample">
+                <div class="accordion" id="topRated">
                     <div class="card">
-                       
-                            <h5 class="mb-0">
-                                <button class="btn btn-outline-primary" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                    View Top Sellers
-                                </button>
-                            </h5>
-                            <br />
-                        
-                        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+
+                        <h5 class="mb-0">
+                            <button class="btn btn-outline-primary" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                View Top Sellers
+                            </button>
+                        </h5>
+                        <br />
+
+                        <div id="collapseOne" class="collapse show"  data-parent="#topRated">
                             <div class="card-body">
                                 <ul style="list-style:none;display:inline-flex">
                                     @foreach (var item in topSellers)
@@ -54,134 +54,133 @@
     </div>
 </div>
 <br />
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
 <div class="row">
 
-    <div class="card col-md-12">
-        <div class="card-body" style="width:100% !important">
-            <div class="dataTables_wrapper">
+    <div class="card-body" style="width:100% !important">
+        <div class="dataTables_wrapper">
 
 
-                <p>
-                    <button asp-action="Create">Create New</button>
-                </p>
-                <table class="table table-striped" id="booksTable" style="align-content:center;text-align:center;width:100% !important">
-                    <thead class="">
+            <table class="table table-striped" id="booksTable" style="align-content:center;text-align:center;width:100% !important">
+                <thead class="">
+                    <tr>
+                        <th class="">
+                            @Html.DisplayNameFor(model => model.Cover)
+                        </th>
+                        <th class="">
+                            @Html.DisplayNameFor(model => model.Title)
+                        </th>
+                        <th class="">
+                            @Html.DisplayNameFor(model => model.Author)
+                        </th>
+                        <th class="">
+                            @Html.DisplayNameFor(model => model.Genre)
+                        </th>
+                        <th hidden>
+                            @Html.DisplayNameFor(model => model.Isbn)
+                        </th>
+                        <th class="">
+                            @Html.DisplayNameFor(model => model.Seller)
+                        </th>
+                        <th class="">
+                            Price
+                        </th>
+                        <th class="">
+                            Rating
+                        </th>
+                        <th class="">
+                            Published Date
+                        </th>
+                        <th hidden class="">
+                            @Html.DisplayNameFor(model => model.Quantity)
+                        </th>
+                        <th class="">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
                         <tr>
-                            <th class="">
-                                @Html.DisplayNameFor(model => model.Cover)
-                            </th>
-                            <th class="">
-                                @Html.DisplayNameFor(model => model.Title)
-                            </th>
-                            <th class="">
-                                @Html.DisplayNameFor(model => model.Author)
-                            </th>
-                            <th class="">
-                                @Html.DisplayNameFor(model => model.Genre)
-                            </th>
-                            <th hidden>
-                                @Html.DisplayNameFor(model => model.Isbn)
-                            </th>
-                            <th class="">
-                                @Html.DisplayNameFor(model => model.Seller)
-                            </th>
-                            <th class="">
-                                Price
-                            </th>
-                            <th class="">
-                                Rating
-                            </th>
-                            <th class="">
-                                Published Date
-                            </th>
-                            <th hidden class="">
-                                @Html.DisplayNameFor(model => model.Quantity)
-                            </th>
-                            <th class="">Actions</th>
+                            <td>
+                                <img src="~/Images/@item.ImageName" width="120" height="170" />
+
+                            </td>
+                            <td class=" col-md-1">
+                                @Html.DisplayFor(modelItem => item.Title)
+                            </td>
+                            <td class="">
+                                @Html.DisplayFor(modelItem => item.Author)
+                            </td>
+                            <td class="">
+                                @Html.DisplayFor(modelItem => item.Genre)
+                            </td>
+                            <td hidden>
+                                @Html.DisplayFor(modelItem => item.Isbn)
+                            </td>
+                            <td class="">
+                                @Html.DisplayFor(modelItem => item.Seller)
+                            </td>
+                            <td class="">
+                                @Html.DisplayFor(modelItem => item.Price)
+                            </td>
+                            <td class="">
+                                @Html.DisplayFor(modelItem => item.RatingAve)
+                            </td>
+                            <td class="">
+                                @Html.DisplayFor(modelItem => item.CreationDateString)
+                            </td>
+                            <td hidden>
+                                @Html.DisplayFor(modelItem => item.Quantity)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.BookID)
+
+                            </td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var item in Model)
-                        {
-                            <tr>
-                                <td>
-                                    <img src="~/Images/@item.ImageName" width="120" height="170" />
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th class="">
+                        </th>
+                        <th class="">
 
-                                </td>
-                                <td class=" col-md-1">
-                                    @Html.DisplayFor(modelItem => item.Title)
-                                </td>
-                                <td class="">
-                                    @Html.DisplayFor(modelItem => item.Author)
-                                </td>
-                                <td class="">
-                                    @Html.DisplayFor(modelItem => item.Genre)
-                                </td>
-                                <td hidden>
-                                    @Html.DisplayFor(modelItem => item.Isbn)
-                                </td>
-                                <td class="">
-                                    @Html.DisplayFor(modelItem => item.Seller)
-                                </td>
-                                <td class="">
-                                    @Html.DisplayFor(modelItem => item.Price)
-                                </td>
-                                <td class="">
-                                    @Html.DisplayFor(modelItem => item.RatingAve)
-                                </td>
-                                <td class="">
-                                    @Html.DisplayFor(modelItem => item.CreationDateString)
-                                </td>
-                                <td hidden>
-                                    @Html.DisplayFor(modelItem => item.Quantity)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.BookID)
+                        </th>
+                        <th class="">
 
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <th class="">
-                            </th>
-                            <th class="">
+                        </th>
+                        <th class="">
+                            filter by Genre
 
-                            </th>
-                            <th class="">
+                        </th>
+                        <th hidden>
 
-                            </th>
-                            <th class="">
-                                filter by Genre
+                        </th>
+                        <th class="">
 
-                            </th>
-                            <th hidden>
+                        </th>
+                        <th class="">
 
-                            </th>
-                            <th class="">
+                        </th>
+                        <th class="">
 
-                            </th>
-                            <th class="">
+                        </th>
+                        <th class="">
 
-                            </th>
-                            <th class="">
-
-                            </th>
-                            <th class="">
-
-                            </th>
-                            <th hidden class="">
-                                @Html.DisplayNameFor(model => model.Quantity)
-                            </th>
-                            <th class=""></th>
-                        </tr>
-                    </tfoot>
-                </table>
-            </div>
+                        </th>
+                        <th hidden class="">
+                            @Html.DisplayNameFor(model => model.Quantity)
+                        </th>
+                        <th class=""></th>
+                    </tr>
+                </tfoot>
+            </table>
         </div>
     </div>
 </div>
+
 
 
 
