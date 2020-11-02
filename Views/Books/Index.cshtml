@@ -18,23 +18,36 @@
     <div class="card">
         <div class="card-body">
             <div class="row">
-                <h5 style="text-align-last:center !important">Top Sellers </h5>
-                <br>
 
-                <div>
+                <div class="accordion" id="accordionExample">
+                    <div class="card">
+                       
+                            <h5 class="mb-0">
+                                <button class="btn btn-outline-primary" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                    View Top Sellers
+                                </button>
+                            </h5>
+                            <br />
+                        
+                        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+                            <div class="card-body">
+                                <ul style="list-style:none;display:inline-flex">
+                                    @foreach (var item in topSellers)
+                                    {
+                                        @*this is a loop for showing my list of topSellers, after I casted the list above*@
+                                        <li class="row" style="align-content:center !important; width:20%; vertical-align:middle !important">
+                                            <img class="col-md-4" src="~/Images/@item.ImageName" width="40" height="55" style="vertical-align:middle" />
+                                            <a class="col-md-8" asp-action="Details" asp-route-id="@item.BookID">@item.Title</a>
+                                        </li>
 
-                    <ul style="list-style:none;display:inline-flex">
-                        @foreach (var item in topSellers)
-                        {
-                            @*this is a loop for showing my list of topSellers, after I casted the list above*@
-                            <li class="row" style="align-content:center !important; width:20%; vertical-align:middle !important">
-                                <img class="col-md-4" src="~/Images/@item.ImageName" width="40" height="55" style="vertical-align:middle" />
-                                <a class="col-md-8" asp-action="Details" asp-route-id="@item.BookID">@item.Title</a>
-                            </li>
 
+                                    }
+                                </ul>
 
-                        }
-                    </ul>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -44,14 +57,14 @@
 <div class="row">
 
     <div class="card col-md-12">
-        <div class="card-body">
+        <div class="card-body" style="width:100% !important">
             <div class="dataTables_wrapper">
 
 
                 <p>
                     <button asp-action="Create">Create New</button>
                 </p>
-                <table class="table table-striped" id="booksTable" style="width:100%;align-content:center;text-align:center !important">
+                <table class="table table-striped" id="booksTable" style="align-content:center;text-align:center;width:100% !important">
                     <thead class="">
                         <tr>
                             <th class="">
@@ -114,7 +127,7 @@
                                     @Html.DisplayFor(modelItem => item.Price)
                                 </td>
                                 <td class="">
-                                        @Html.DisplayFor(modelItem => item.RatingAve)
+                                    @Html.DisplayFor(modelItem => item.RatingAve)
                                 </td>
                                 <td class="">
                                     @Html.DisplayFor(modelItem => item.CreationDateString)
@@ -134,29 +147,29 @@
                             <th class="">
                             </th>
                             <th class="">
-                                
+
                             </th>
                             <th class="">
-                                
+
                             </th>
                             <th class="">
-                               filter by Genre
+                                filter by Genre
 
                             </th>
                             <th hidden>
-                               
+
                             </th>
                             <th class="">
-                               
+
                             </th>
                             <th class="">
-                              
+
                             </th>
                             <th class="">
-                               
+
                             </th>
                             <th class="">
-                               
+
                             </th>
                             <th hidden class="">
                                 @Html.DisplayNameFor(model => model.Quantity)

@@ -32,7 +32,7 @@ namespace BookStore.ViewModels
         public double Price { get; set; }
 
         [DisplayName("Rating Ave")]
-        public double RatingAve { get; set; }
+        public double RatingAve { get; set; } //to be changed so it takes the average of all the reviews on listOfBookReviews
 
         public IFormFile Cover { get; set; }//to storage cover image
 
@@ -42,9 +42,12 @@ namespace BookStore.ViewModels
         public string CreationDateString => CreationDate.ToShortDateString();
 
         public int Quantity { get; set; }
+        public List<ReviewViewModel> listOfBookReviews { get; set; }
+        public ReviewViewModel Review { get; set; } //nav prop
 
 
-       
+
+
 
 
     }

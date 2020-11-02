@@ -5,7 +5,6 @@
         dom: "lftip",
         responsive: true,
         ordering: true,
-        order: [[1, "asc"]],
         paging: true,
         lengthMenu: [10, 20, 30, 40, 50],
         language: {
@@ -23,7 +22,7 @@
                     for (var i = 0; i < dataCell; i++) {
                         stars += '<span class="fas text-warning fa-star fa-xs"></span>'
                     }
-                    return dataCell;
+                    return stars + " (" + dataCell + ")" ;
 
                 },
             },
@@ -45,7 +44,8 @@
             table.columns().every(function () {
                 var column = this;
                 var columnIdx = column[0];
-                if (columnIdx == 2 || columnIdx == 3 || columnIdx == 5) {
+                if (columnIdx == 2 || columnIdx == 3 || columnIdx == 5)
+                {
                     var select = $('<select style="background-color:lightslategray; border: none; border-radius: 8px;color: white; padding: 15px 32px; text - align: center; text - width: 100%; display: inline - block; font - size: 16px"> <option value="">' + "Filter by " + column.header().innerText + '</option></select>').appendTo($(column.footer()).empty())
                         .on('change', function () {
                             debugger
@@ -57,9 +57,9 @@
                         select.append('<option value="' + d + '">' + d + '</option>')
                     })
                 }
+                
 
                 else if (columnIdx == 7) {
-                    //$('<input type="hidden" id="selected-rating" />').appendTo('body')
                     /* Custom filtering function which will filter between a value and max rating */
                     $.fn.dataTable.ext.search.push(
                         function (settings, data, dataIndex) {
@@ -82,7 +82,6 @@
                         .on('change', function () {
 
                             var value = $.fn.dataTable.util.escapeRegex($(this).val());
-                            //$('#selected-rating').val(value);
                             table.draw();
                         });
 
