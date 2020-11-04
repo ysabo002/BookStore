@@ -3,15 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Net.Http;
 using BookStore.ViewModels;
+using Microsoft.AspNetCore.Hosting;
+using System.IO;
+using Microsoft.Extensions.Hosting;
 
 namespace BookStore
 {
     public class ShoppingCartsController : Controller
     {
-        
+        public string BaseUrl = "https://localhost:44357/api/";
+
 
         public ShoppingCartsController()
         {
@@ -21,8 +25,31 @@ namespace BookStore
         // GET: ShoppingCarts
         public async Task<IActionResult> Index()
         {
-     
-            return View();
+            var shoppingcarts = new List<ShoppingCartViewModel>();
+
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(BaseUrl);
+                //HTTP GET
+                Task<HttpResponseMessage> responseTask = client.GetAsync("ShoppingCarts");
+                responseTask.Wait();
+
+                var result = responseTask.Result;
+
+                if (result.IsSuccessStatusCode)
+                {
+                    var readTask = await result.Content.ReadAsAsync<IList<ShoppingCartViewModel>>();
+
+                    shoppingcarts = readTask.ToList();
+
+                    return View(shoppingcarts);
+                }
+
+                ModelState.AddModelError(string.Empty, "Server error. Please contact administrator.");
+
+            }
+   
+            return View(shoppingcarts);
         }
 
         // GET: ShoppingCarts/Details/5
@@ -32,12 +59,32 @@ namespace BookStore
             {
                 return NotFound();
             }
+            var shoppingcart = new ShoppingCartViewModel();
 
-          
-          
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(BaseUrl);
+                //HTTP GET
+                HttpResponseMessage responseTask = await client.GetAsync($"ShoppingCarts/{id.Value}");
 
-            return View();
+                if (responseTask.IsSuccessStatusCode)
+                {
+                    var readTask = await responseTask.Content.ReadAsAsync<ShoppingCartViewModel>();
+
+                    shoppingcart = readTask;
+
+                    return View(shoppingcart);
+                }
+
+                ModelState.AddModelError(string.Empty, "Server error. Please contact administrator.");
+
+            }
+            return View(shoppingcart);
         }
+          
+          
+
+
 
         // GET: ShoppingCarts/Create
         public IActionResult Create()
@@ -55,10 +102,20 @@ namespace BookStore
         {
             if (ModelState.IsValid)
             {
-               
-                return RedirectToAction(nameof(Index));
+                shoppingCart.IsActive = true;
+
+              
+
+                using (var client = new HttpClient())
+                {
+                   
+                    
+                    var responseTask = await client.PostAsJsonAsync("ShoppingCart", shoppingCart);
+                    return RedirectToAction(nameof(Index));
+
+                }
+
             }
-            ViewData["BuyerID"] = new SelectList( "BuyerID", "BuyerID");
             return View(shoppingCart);
         }
 
@@ -69,11 +126,28 @@ namespace BookStore
             {
                 return NotFound();
             }
+            var shoppingcart = new ShoppingCartViewModel();
 
-            
-           
-            ViewData["BuyerID"] = new SelectList("BuyerID", "BuyerID");
-            return View();
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(BaseUrl);
+                //HTTP GET
+                HttpResponseMessage responseTask = await client.GetAsync($"ShoppingCarts/{id.Value}");
+
+                if (responseTask.IsSuccessStatusCode)
+                {
+                    var readTask = await responseTask.Content.ReadAsAsync<ShoppingCartViewModel>();
+
+                    shoppingcart = readTask;
+
+                    return View(shoppingcart);
+                }
+
+                ModelState.AddModelError(string.Empty, "Server error. Please contact administrator.");
+
+            }
+            return View(shoppingcart);
+
         }
 
         // POST: ShoppingCarts/Edit/5
@@ -90,12 +164,23 @@ namespace BookStore
 
             if (ModelState.IsValid)
             {
-                
-               
+                shoppingCart.LastUpdatedDate = DateTime.UtcNow;
+                try
+                {
+                    using (var client = new HttpClient())
+                    {
+                        client.BaseAddress = new Uri(BaseUrl);
+                        var responseTask = await client.PutAsJsonAsync($"ShoppingCart/{id}", shoppingCart);
+                        return RedirectToAction(nameof(Index));
+                    }
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+
+                }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["BuyerID"] = new SelectList( "BuyerID", "BuyerID");
-            return View();
+            return View(shoppingCart);
         }
 
         // GET: ShoppingCarts/Delete/5
@@ -105,8 +190,28 @@ namespace BookStore
             {
                 return NotFound();
             }
+            var shoppingcart = new ShoppingCartViewModel();
 
-            return View();
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(BaseUrl);
+                //HTTP GET
+                HttpResponseMessage responseTask = await client.GetAsync($"ShoppingCart/{id.Value}");
+
+                if (responseTask.IsSuccessStatusCode)
+                {
+
+                    var readTask = await responseTask.Content.ReadAsAsync<ShoppingCartViewModel>();
+
+                    shoppingcart = readTask;
+
+                    return View(shoppingcart);
+                }
+
+                ModelState.AddModelError(string.Empty, "Server error. Please contact administrator.");
+
+            }
+            return View(shoppingcart);
         }
 
         // POST: ShoppingCarts/Delete/5
@@ -114,9 +219,26 @@ namespace BookStore
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            return RedirectToAction(nameof(Index));
-        }
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(BaseUrl);
+                //HTTP GET
+                HttpResponseMessage responseTask = await client.DeleteAsync($"ShoppingCart/{id}");
 
-       
+                if (responseTask.IsSuccessStatusCode)
+                {
+                    var readTask = await responseTask.Content.ReadAsAsync<ShoppingCartViewModel>();
+                    var shoppingcart = readTask;
+                   
+                    return RedirectToAction(nameof(Index));
+                }
+
+                return RedirectToAction("Delete");
+            }
+
+
+        }
+        
+
     }
 }
