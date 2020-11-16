@@ -47,7 +47,7 @@
                 var column = this;
                 var columnIdx = column[0];
                 if (columnIdx == 2 || columnIdx == 3 || columnIdx == 5) {
-                    var select = $('<select style="background-color:lightslategray; border: none; border-radius: 8px;color: white; padding: 15px 5px; text - align: center; text - width: 50%; display: inline - block; font - size: 12px"> <option value="">' + "Filter by " + column.header().innerText + '</option></select>').appendTo($(column.footer()).empty())
+                    var select = $('<select style="background-color:#5c8281; border: none; border-radius: 8px;color: white; padding: 15px 5px; text - align: center; text - width: 50%; display: inline - block; font - size: 12px"> <option value="">' + "Filter by " + column.header().innerText + '</option></select>').appendTo($(column.footer()).empty())
                         .on('change', function () {
                             debugger
                             var value = $.fn.dataTable.util.escapeRegex($(this).val());
@@ -79,7 +79,7 @@
                     );
 
 
-                    var select = $('<select id="rating" style="background-color:lightslategray; border: none; border-radius: 8px;color: white; padding: 15px 5px; text - align: center; text - width: 80%; display: inline - block; font - size: 16px"> <option value="">' + "Filter by " + column.header().innerText + '</option></select>').appendTo($(column.footer()).empty())
+                    var select = $('<select id="rating" style="background-color:#5c8281; border: none; border-radius: 8px;color: white; padding: 15px 5px; text - align: center; text - width: 80%; display: inline - block; font - size: 16px"> <option value="">' + "Filter by " + column.header().innerText + '</option></select>').appendTo($(column.footer()).empty())
                         .on('change', function () {
 
                             var value = $.fn.dataTable.util.escapeRegex($(this).val());

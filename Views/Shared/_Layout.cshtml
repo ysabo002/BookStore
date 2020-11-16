@@ -17,8 +17,8 @@
 
 </head>
 <body>
-    <header class="Header">
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+    <header class="Header" >
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3" style="  background-color: #032928 !important" >
             <div class="container">
                 <a class="navbar-brand" asp-area="" asp-controller="Books" asp-action="Index">BookStore</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -28,29 +28,36 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Addresses" asp-action="Index">Address</a>
+                            <a class="nav-link text-light" asp-area="" asp-controller="Addresses" asp-action="Index">Address</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Books" asp-action="Index">Book</a>
+                            <a class="nav-link text-light" asp-area="" asp-controller="Books" asp-action="Index">Book</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Buyers" asp-action="Index">Buyer</a>
+                            <a class="nav-link text-light" asp-area="" asp-controller="Buyers" asp-action="Index">Buyer</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Cards" asp-action="Index">Card</a>
+                            <a class="nav-link text-light" asp-area="" asp-controller="Cards" asp-action="Index">Card</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Reviews" asp-action="Index">Review</a>
+                            <a class="nav-link text-light" asp-area="" asp-controller="Reviews" asp-action="Index">Review</a>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="SaveForLaters" asp-action="Index">SaveForLater</a>
+                            <a class="nav-link text-light" asp-area="" asp-controller="SaveForLaters" asp-action="Index">SaveForLater</a>
                         </li>
 
                     </ul>
 
                 </div>
-                <div class="nav-item">
-                    <a class="nav-link text-dark fas fa-shopping-cart fa-3x float-right link-list-item" style="margin-right:auto !important; color:dimgray" asp-area="" asp-controller="ShoppingCarts" asp-action="Index"></a>
-                </div>
+                <a class="card-header-pills"></a>
+                <span class="nav-item nav-link text-light"  asp-area="" asp-controller="ShoppingCarts" asp-action="Index"> Login
+                    <svg class="nav-link text-light fas fa-user  float-right link-list-item " style="margin-right:auto !important; color:dimgray" viewBox="0 0 60 16"></svg> 
+                    
+                </span>
+                <span class="nav-item nav-link text-light"> Cart
+                    <svg class="nav-link text-light fas fa-shopping-cart  float-right link-list-item" style="margin-right:auto !important; color:dimgray" asp-area="" asp-controller="ShoppingCarts" asp-action="Index" viewBox="0 0 60 16"></svg>
+                    
+                </span>
+
             </div>
         </nav>
     </header>
