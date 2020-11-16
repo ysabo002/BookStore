@@ -17,10 +17,10 @@
 
 </head>
 <body>
-    <header class="Header" >
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3" style="  background-color: #032928 !important" >
+    <header class="Header">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3" style="  background-color: #032928 !important">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Books" asp-action="Index">BookStore</a>
+                <a class="navbar-brand text-light" asp-area="" asp-controller="Books" asp-action="Index">BookStore</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -49,28 +49,44 @@
 
                 </div>
                 <a class="card-header-pills"></a>
-                <span class="nav-item nav-link text-light"  asp-area="" asp-controller="ShoppingCarts" asp-action="Index"> Login
-                    <svg class="nav-link text-light fas fa-user  float-right link-list-item " style="margin-right:auto !important; color:dimgray" viewBox="0 0 60 16"></svg> 
-                    
+                <span class="nav-item nav-link text-light">
+                    Login
+                    <a class="nav-link text-light fas fa-user  float-right link-list-item " style="margin-right:auto !important; color:dimgray" asp-area="" asp-controller="ShoppingCarts" asp-action="Index"></a>
+
                 </span>
-                <span class="nav-item nav-link text-light"> Cart
-                    <svg class="nav-link text-light fas fa-shopping-cart  float-right link-list-item" style="margin-right:auto !important; color:dimgray" asp-area="" asp-controller="ShoppingCarts" asp-action="Index" viewBox="0 0 60 16"></svg>
-                    
+                <span class="nav-item nav-link text-light">
+                    Cart
+                    <a class="nav-link text-light fas fa-shopping-cart  float-right link-list-item" style="margin-right:auto !important; color:dimgray" asp-area="" asp-controller="ShoppingCarts" asp-action="Index" ></a>
+
                 </span>
 
             </div>
         </nav>
+       
+            <div id="carousel" class="carousel slide" data-ride="carousel">
+
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img src="~/Images/WebSiteImages/Untitled-1 wide.jpg" class="d-block w-100" alt="..." height="80">
+                    </div>
+
+                    <div class="carousel-item">
+                        <img src="~/Images/WebSiteImages/Untitled-2wide.jpg" class="d-block w-100" alt="..." height="80">
+                    </div>
+                </div>
+            </div>
+        
     </header>
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
-
-    <footer class="footer">
-        &copy; 2020 - BookStore - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-    </footer>
-
+    <div>
+        <footer class="footer  nav-link text-light" style="background-color: #032928">
+            &copy; 2020 - BookStore - <a  class="nav-item text-light" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </footer>
+    </div>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
