@@ -11,11 +11,17 @@
 <div class="row">
     <div class="col-md-12">
         <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @*<div asp-validation-summary="ModelOnly" class="text-danger"></div>*@
             <input type="hidden" asp-for="BookID" />
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
+                        <div class="form-group">
+                            <img src="~/Images/@Model.ImageName" width="80" ; height="120" />
+                            <label asp-for="Cover" class="control-label">Upload Cover Image</label>
+                            <input asp-for="Cover" class="form-control" />
+                            <span asp-validation-for="Cover" class="text-danger"></span>
+                        </div>
                         <label asp-for="Title" class="control-label"></label>
                         <input asp-for="Title" class="form-control" />
                         <span asp-validation-for="Title" class="text-danger"></span>
@@ -35,6 +41,7 @@
                         <input asp-for="Isbn" class="form-control" />
                         <span asp-validation-for="Isbn" class="text-danger"></span>
                     </div>
+                    
 
                 </div>
                 <div class="col-md-6">

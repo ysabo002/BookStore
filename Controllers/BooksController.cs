@@ -9,10 +9,12 @@ using BookStore.ViewModels;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
 using Microsoft.Extensions.Hosting;
-
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BookStore
 {
+    [Authorize]
     public class BooksController : Controller
     {
         public string BaseUrl = "https://localhost:44357/api/";
@@ -29,7 +31,7 @@ namespace BookStore
         public async Task<IActionResult> Index()
         {
             var books = new List<BookViewModel>();
-            
+
 
             using (var client = new HttpClient())
             {
@@ -115,7 +117,7 @@ namespace BookStore
                 string wwwrootpath = _hostEnvironment.WebRootPath;
                 string filename = String.Concat(DateTime.Now.ToString("yyyMMddHHmm"), book.Cover.FileName);
                 string path = String.Concat(wwwrootpath + "/images/", filename);
-                
+
                 //string extension = path.getextension(book.cover.filename);
                 book.ImageName = filename;
 
@@ -128,20 +130,6 @@ namespace BookStore
                 using (var client = new HttpClient())
                 {
                     client.BaseAddress = new Uri(BaseUrl);
-                    //var bookEntity = new Book()
-                    //{
-                    //    ImageName = book.ImageName,
-                    //    CreationDate = DateTime.UtcNow,
-                    //    LastUpdatedDate = DateTime.UtcNow,
-                    //    Cover = book.Cover,
-                    //    Genre = book.Genre,
-                    //    Author = book.Author,
-                    //    Isbn = book.Isbn,
-                    //    Price = book.Price,
-                    //    Quantity = book.Quantity,
-                    //    RatingAve = book.RatingAve,
-                    //    Title = book.Title
-                    //};
                     book.Cover = null;
                     var responseTask = await client.PostAsJsonAsync("Books", book);
                     return RedirectToAction(nameof(Index));
@@ -198,11 +186,28 @@ namespace BookStore
 
             if (ModelState.IsValid)
             {
+                if (!string.IsNullOrEmpty(book.ImageName))
+                {
+
+                    string wwwrootpath = _hostEnvironment.WebRootPath;
+                    string filename = String.Concat(DateTime.Now.ToString("yyyMMddHHmm"), book.Cover.FileName);
+                    string path = String.Concat(wwwrootpath + "/images/", filename);
+
+                    //string extension = path.getextension(book.cover.filename);
+                    book.ImageName = filename;
+                    using (var filestream = new FileStream(path, FileMode.Create, FileAccess.ReadWrite))
+                    {
+                        await book.Cover.CopyToAsync(filestream);
+                    }
+                }
+
+
                 book.LastUpdatedDate = DateTime.UtcNow;
                 try
                 {
                     using (var client = new HttpClient())
                     {
+                        //book.Cover = null;
                         client.BaseAddress = new Uri(BaseUrl);
                         var responseTask = await client.PutAsJsonAsync($"Books/{id}", book);
                         return RedirectToAction(nameof(Index));
@@ -239,7 +244,7 @@ namespace BookStore
                     var readTask = await responseTask.Content.ReadAsAsync<BookViewModel>();
 
                     book = readTask;
-                    
+
                     return View(book);
                 }
 

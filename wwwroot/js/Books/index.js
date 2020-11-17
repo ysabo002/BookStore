@@ -102,5 +102,25 @@
 
     });
 
+    //@Html.Raw(Json.Encode(@ViewBag.Array));
+    //var topSellersList = '@ViewBag.TopSellers';
+    //for (var i = 0; i < topSellersList.lenght; i++) {
 
+
+    //}   
+
+    //function truncateString(str, length) {
+    //    if (length == null) {
+    //        length = 100;
+    //    }
+
+    //    let ending = ' ...';
+
+    //    if (str.length > length) {
+    //        return str.substring(0, length - ending.length) + ending;
+    //    } else {
+    //        return str;
+    //    }
+    //};
 });
+

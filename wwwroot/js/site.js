@@ -1,4 +1,6 @@
-﻿//$.fn.BookStoreTableClientSide = function (options) {
+﻿
+
+//$.fn.BookStoreTableClientSide = function (options) {
 
 //    // These are the defaults.
 //    var settings = $.extend({

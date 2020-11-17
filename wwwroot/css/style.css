@@ -21,7 +21,12 @@
     align-self: start;
 }
 
-
+.truncate {
+    width: 20px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: clip;
+}
 /*.card {
     position:relative;
     background: #ffffff;

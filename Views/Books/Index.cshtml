@@ -48,19 +48,16 @@
                         <span class="swiper-slide" style=border: none !important">
 
 
-                            <span class="content border-bottom border-top box-shadow" style="list-style:none; display:inline-flex">
+                            <span class="content border-bottom border-top box-shadow " style="list-style:none; display:inline-flex">
 
                                 <img src="~/Images/@item.ImageName" width="80" ; height="120" />
-                                <a asp-action="Details" asp-route-id="@item.BookID" style="width:auto; padding-left:20px">@item.Title</a>
+                                <a id="topSellerItem" asp-action="Details" asp-route-id="@item.BookID" style="width:auto;padding-left:20px; text-overflow:ellipsis !important">@item.Title</a>
 
                             </span>
                         </span>
 
 
                     }
-
-
-
 
                 </span>
                 <div class="swiper-pagination"></div>
