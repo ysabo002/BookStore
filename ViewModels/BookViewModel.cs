@@ -15,6 +15,8 @@ namespace BookStore.ViewModels
         public int BookID { get; set; }
         [Required]
         public string Title { get; set; }
+       public string ShortTitle => Title.Length < 15 ? Title.Substring(0, Title.Length) : Title.Substring(0, 15);
+
         [Required]
 
         public string Author { get; set; }
@@ -31,25 +33,22 @@ namespace BookStore.ViewModels
         [DisplayFormat(DataFormatString = "{0:$#.##}")]
         public double Price { get; set; }
 
-        [DisplayName("Rating Ave")]
+        
         public double RatingAve { get; set; } //to be changed so it takes the average of all the reviews on listOfBookReviews
 
         public IFormFile Cover { get; set; }//to storage cover image
 
         public string ImageName { get; set; }  //name of the cover file
-
+      
         public DateTime CreationDate { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yy}")]
         public string CreationDateString => CreationDate.ToShortDateString();
 
         public int Quantity { get; set; }
         public List<ReviewViewModel> listOfBookReviews { get; set; }
         public ReviewViewModel Review { get; set; } //nav prop
-
-
-
-
-
-
+        
     }
 }
 

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BookStore.ViewModels
 {
-    public class BuyerViewModel : BaseEntityViewModel
+    public class BuyerViewModel : BaseEntityViewModel 
     {
         
         public int BuyerID { get; set; }

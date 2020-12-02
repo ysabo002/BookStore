@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore.Design;
+using Microsoft.AspNetCore.Identity;
 
 namespace BookStore
 {
@@ -28,6 +29,7 @@ namespace BookStore
         {
             services.AddControllersWithViews();
             services.AddRazorPages().AddRazorRuntimeCompilation();
+            //services.AddIdentity<AspNetUsers,IdentityRole>(options => options.Sign.RequireConfirmationAccount = true).AddEntityFrameworkStores().AddDefaultTokenProviders().AdddefaultUI();
 
 
         }

@@ -18,9 +18,7 @@
 }
 <br />
 <h5 style="width:100%">
-
     Browse Top Sellers
-
 </h5>
 <br />
 
@@ -28,18 +26,11 @@
 
     <div class="card" style="border:none">
 
-
         <div class="row" style="width:100%; border:none !important">
-
-
 
             <div class="swiper-container " style="width:100%;border:none !important">
 
                 <span class="swiper-wrapper" style="border:none">
-
-
-
-
 
                     @foreach (var item in topSellers)
                     {
@@ -47,16 +38,13 @@
 
                         <span class="swiper-slide" style=border: none !important">
 
-
-                            <span class="content border-bottom border-top box-shadow " style="list-style:none; display:inline-flex">
-
-                                <img src="~/Images/@item.ImageName" width="80" ; height="120" />
-                                <a id="topSellerItem" asp-action="Details" asp-route-id="@item.BookID" style="width:auto;padding-left:20px; text-overflow:ellipsis !important">@item.Title</a>
+                            <span class="content border-bottom border-top box-shadow "  style="list-style:none; display:inline-flex" >
+                             
+                                    <img src="~/Images/@item.ImageName" width="80" ; height="120" />
+                                    <a id="topSellerItem" asp-action="Details" asp-route-id="@item.BookID" style="width:auto;padding-left:20px !important">@item.ShortTitle...</a>
 
                             </span>
                         </span>
-
-
                     }
 
                 </span>
@@ -77,8 +65,6 @@
 
     <div class="card-body" style="width:100% !important">
         <div class="dataTables_wrapper">
-
-
 
             <table class="table table-striped" id="booksTable" style="align-content:center;text-align:center;width:100% !important">
                 <thead class="">
@@ -124,7 +110,7 @@
                                 <img src="~/Images/@item.ImageName" width="120" height="170" />
 
                             </td>
-                            <td class=" col-md-1">
+                            <td class=" col-md-1"  >
                                 @Html.DisplayFor(modelItem => item.Title)
                             </td>
                             <td class="">
@@ -169,7 +155,6 @@
 
                         </th>
                         <th class="">
-
 
                         </th>
                         <th hidden>

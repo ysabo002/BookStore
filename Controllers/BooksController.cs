@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace BookStore
 {
-    [Authorize]
+   // [Authorize]
     public class BooksController : Controller
     {
         public string BaseUrl = "https://localhost:44357/api/";
