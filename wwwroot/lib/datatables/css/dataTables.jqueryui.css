@@ -444,7 +444,6 @@ table.dataTable tfoot th.ui-state-default:first-child {
   box-sizing: border-box;
   display: inline-block;
   min-width: 1.5em;
-  padding: 0.5em;
   margin-left: 2px;
   text-align: center;
   text-decoration: none !important;
