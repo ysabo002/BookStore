@@ -4,70 +4,114 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+@{
+    var ratingtxt = (IEnumerable<BookStore.ViewModels.ReviewViewModel>)ViewBag.Ratingtxt;
+    var ratingSum = ViewBag.RatingSum;
+    var ratingCount = ViewBag.RatingCount;
+    var bookID = ViewBag.BookID; 
+    var buyerID = ViewBag.BuyerID; 
+                                   
+
+    decimal rating = 0;
+    if (ratingCount > 0)
+    {
+        rating = (ratingSum / ratingCount);
+    }
+
+    var totalRating = decimal.Parse(rating.ToString());
+}
+<body onload="SCRate();">
+</body>
 
 <div>
-    <h4>Book</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Title)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Author)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Author)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Genre)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Genre)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Isbn)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Isbn)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Seller)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Seller)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Price)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Price)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.RatingAve)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.RatingAve)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CreationDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CreationDate)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Quantity)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Quantity)
-        </dd>
-        
-    </dl>
+    <span class="starFadeN" id="sRate1"></span><span class="starFadeN" id="sRate2"></span><span class="starFadeN" id="sRate3"></span><span class="starFadeN" id="sRate4"></span><span class="starFadeN" id="sRate5"></span>
+    (@ratingCount Reviews)
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.BookID">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <h4>Book</h4>
+    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Author)
+        </dt>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Genre)
+        </dt>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Isbn)
+        </dt>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Seller)
+        </dt>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Price)
+        </dt>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.RatingAve)
+        </dt>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CreationDate)
+        </dt>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Quantity)
+        </dt>
+
+    </dl>
+
 </div>
+
+@foreach (var c in ratingtxt)
+{
+    <hr />
+    <div class="row">
+        <div class="col-md-3">
+            <i>@c.CreationDate</i>
+            <br />
+            @for (var i = 1; i <= ((int)c.Rating); i++)
+            {
+                <span class="starGlowN"></span>
+            }
+            @for (var i = (((int)c.Rating) + 1); i <= 5; i++)
+            {
+                <span class="starFadeN"></span>
+            }
+        </div>
+    </div>
+    <div>
+        @if (@c.Username == null) 
+        {
+            <div>
+                <b>By Anonymous</b>
+            </div>
+        }
+        else 
+        {
+            <div><b>By @c.Username</b></div>
+        }
+        <i>on @String.Format("{0:F}", @c.CreationDate)</i>
+    </div>
+    <div class="col-md-9">
+        @Html.Raw(c.Ratingtxt.Replace("\n", "<br />"))
+
+
+    </div>
+}
+<hr />
+<partial>
+    @Html.Partial("BookReviewBox")
+</partial>
+
+<script>
+    function SCRate() {
+        for (var i = 1; i <= @totalRating; i++) {
+            $("#sRate" + i).attr('class', 'starGlowN');
+        }
+    }
+    $(function(){
+        SCRate();
+    });
+</script>

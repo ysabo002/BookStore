@@ -5,13 +5,13 @@
 
     <dd>
         <div class="commentBox">
-            @using (Html.BeginForm("Add", "Reviews", FormMethod.Post, new { onsubmit = "return SubmitComment()" }))
+            @using (Html.BeginForm("Add", "Reviews", FormMethod.Post, new { onsubmit = "return SubmitReview()" }))
             {
                 @Html.AntiForgeryToken()
                 <div class="form-horizontal">
                     <div class="form-group">
                         <label class="col-md-4 control-label">
-                            Your rating <span style="font-weight:normal;">(1 star is bad, 5 star is good)</span>
+                            Your rating <span style="font-weight:normal;">(1 star is poor, 5 star is excellent)</span>
                         </label>
                         <div class="col-md-7">
                             <div onmouseout="CRateSelected()">
@@ -26,13 +26,14 @@
                     </div>
                     <div class="form-group">
                         <div class="col-md-12">
-                            <input type ="checkbox" name="Anonymous" value="Checked" style="margin-left:30px"> Remain Anonymous<br>
-                            <input type="checkbox" name="Nickname" value="Checked" style="margin-left:60px"> Use nickname on profile<br>
+                            <input type="checkbox" name="Anonymous" value="Checked" style="margin-left:60px"> Remain Anonymous<br>
+                            <input type="checkbox" name="Nickname" value="Checked1" style="margin-left:60px"> Use nickname on profile<br>
                             <input type="hidden" name="BookID" value="@ViewBag.BookID" />
                             <input type="hidden" name="Rating" id="Rating" value="0" />
+                            <input type="hidden" name="BuyerID" id="BuyerID" value="@ViewBag.BuyerID" />
                             <br />
                             <br />
-                            <input type="submit" id="btnRegister" name="btnRegister" value="Submit Review" class="btn btn-warning" style="margin-left:50px"/>
+                            <input type="submit" id="btnRegister" name="btnRegister" value="Submit Review" class="btn btn-warning" style="margin-left:50px" />
                         </div>
                     </div>
                 </div>

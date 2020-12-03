@@ -8,13 +8,13 @@ using Microsoft.EntityFrameworkCore;
 using BookStore.Models;
 using System.Net.Http;
 using BookStore.ViewModels;
-
+using Microsoft.AspNetCore.Http;
 
 namespace BookStore
 {
     public class ReviewsController : Controller
     {
-        public string BaseUrl = "https://localhost:44357/api/";
+        public string BaseUrl = "https://localhost:44327/api/";
 
         public ReviewsController()
         {
@@ -92,7 +92,7 @@ namespace BookStore
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ReviewID,BuyerID,BookID,CreationDate,Ratingtxt,Rating,CreatedDate,LastUpdatedDate,IsActive")] ReviewViewModel review)
+        public async Task<IActionResult> Create([Bind("ReviewID,BuyerID,BookID,Username,CreationDate,Ratingtxt,Rating,CreatedDate,LastUpdatedDate,IsActive")] ReviewViewModel review)
         {
             if (ModelState.IsValid)
             {
@@ -145,7 +145,7 @@ namespace BookStore
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ReviewID,BuyerID,BookID,CreationDate,Ratingtxt,Rating,CreatedDate,LastUpdatedDate,IsActive")] ReviewViewModel review)
+        public async Task<IActionResult> Edit(int id, [Bind("ReviewID,BuyerID,BookID,Username,CreationDate,Ratingtxt,Rating,CreatedDate,LastUpdatedDate,IsActive")] ReviewViewModel review)
         {
             if (id != review.ReviewID)
             {
@@ -223,6 +223,79 @@ namespace BookStore
             }
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Add(IFormCollection form)
+        {
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(BaseUrl);
+
+                var ratingtxt = form["Comment"].ToString();
+                var bookID = int.Parse(form["BookID"]);
+                var rating = int.Parse(form["Rating"]);
+                int buyerID = 1;
+                
+                HttpResponseMessage responseTask3 = await client.GetAsync($"Orders/GetOrderForBooknBuyer/{bookID}/{buyerID}");
+                
+                if (responseTask3.IsSuccessStatusCode)
+                {
+                    
+                    HttpResponseMessage responseTask4 = await client.GetAsync($"Reviews/GetReviewForBooknBuyer/{bookID}/{buyerID}");
+                    if (responseTask4.IsSuccessStatusCode)
+                    {
+                        TempData["DuplicateReview"] = "You have already submitted a review for this book.";
+                    }
+                    else
+                    {
+                        var buyer = new BuyerViewModel();
+                        HttpResponseMessage responseTask2 = await client.GetAsync($"Buyers/{buyerID}");
+                        var readTask2 = await responseTask2.Content.ReadAsAsync<BuyerViewModel>();
+                        buyer = readTask2;
+                        string username = buyer.Name;
+
+                        if (form["Anonymous"].ToString() == "Checked")
+                        {
+                            username = null;
+                        }
+                        else if (form["Nickname"].ToString() == "Checked1")
+                        {
+                            username = buyer.Nickname;
+                        }
+                        else
+                        {
+                            username = buyer.Name;
+                        }
+
+                        ReviewViewModel review = new ReviewViewModel()
+                        {
+                            Ratingtxt = ratingtxt,
+                            BookID = bookID,
+                            Rating = (Rating)rating,
+                            CreationDate = DateTime.Now,
+                            BuyerID = buyerID,
+                            Username = username
+                        };
+
+                        review.IsActive = true;
+                        var responseTask = await client.PostAsJsonAsync("Reviews/Add", review);
+                    }
+
+                   
+
+                }
+                else
+                {
+                    TempData["RatingError"] = "You cannot rate until you have purchased this book.";
+                }
+
+
+                return RedirectToAction("Details", "Books", new { id = bookID });
+
+            }
+            
+
+        }
 
     }
 }
