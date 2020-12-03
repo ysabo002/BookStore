@@ -16,7 +16,7 @@ namespace BookStore
 {
     public class BooksController : BaseController
     {
-        public string BaseUrl = "https://localhost:44357/api/";
+        public string BaseUrl = "https://localhost:44327/api/";
         private readonly IWebHostEnvironment _hostEnvironment;
 
         public IEnumerable<BookViewModel> TopSellers { get; private set; }
@@ -79,15 +79,50 @@ namespace BookStore
                 client.BaseAddress = new Uri(BaseUrl);
                 //HTTP GET
                 HttpResponseMessage responseTask = await client.GetAsync($"Books/{id.Value}");
+                HttpResponseMessage responseTask2 = await client.GetAsync($"Reviews/GetReviewsForBook/{id.Value}");
 
                 if (responseTask.IsSuccessStatusCode)
                 {
+                    if (TempData["RatingError"] != null)
+                    {
+                        ModelState.AddModelError("RatingError", TempData["RatingError"].ToString());
+                    }
+
+                    if(TempData["DuplicateReview"] != null)
+                    {
+                        ModelState.AddModelError("DuplicateReview", TempData["DuplicateReview"].ToString());
+                    }
+
                     var readTask = await responseTask.Content.ReadAsAsync<BookViewModel>();
 
                     book = readTask;
 
+                    var readTask2 = await responseTask2.Content.ReadAsAsync<IList<ReviewViewModel>>();
+
+                    var ratingtxt = readTask2.ToList();
+                    ViewBag.Ratingtxt = ratingtxt;
+
+                    var ratings = readTask2.ToList();
+
+                    ViewBag.BookID = id;
+                    ViewBag.BuyerID = 0;
+
+                    if (ratings.Count() > 0)
+                    {
+                        var ratingSum = ratings.Sum(d => (decimal)d.Rating); 
+                        ViewBag.RatingSum = ratingSum;
+                        var ratingCount = ratings.Count();
+                        ViewBag.RatingCount = ratingCount;
+                    }
+                    else
+                    {
+                        ViewBag.RatingSum = 0;
+                        ViewBag.RatingCount = 0;
+                    }
+
                     return View(book);
                 }
+
 
                 ModelState.AddModelError(string.Empty, "Server error. Please contact administrator.");
 
