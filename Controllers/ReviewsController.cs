@@ -9,7 +9,7 @@ using BookStore.ViewModels;
 
 namespace BookStore
 {
-    public class ReviewsController : Controller
+    public class ReviewsController : BaseController
     {
         
 

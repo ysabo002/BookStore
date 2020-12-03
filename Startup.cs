@@ -12,6 +12,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using BookStore.Data;
 
 namespace BookStore
 {
@@ -29,7 +31,13 @@ namespace BookStore
         {
             services.AddControllersWithViews();
             services.AddRazorPages().AddRazorRuntimeCompilation();
-            //services.AddIdentity<AspNetUsers,IdentityRole>(options => options.Sign.RequireConfirmationAccount = true).AddEntityFrameworkStores().AddDefaultTokenProviders().AdddefaultUI();
+            services.AddDbContext<IdentityBookStoreContext>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("BookStoreContextConnection")));
+            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                .AddRoles<IdentityRole>()
+                .AddEntityFrameworkStores<IdentityBookStoreContext>();
+                
+                //<AspNetUsers,IdentityRole>(options => options.Sign.RequireConfirmationAccount = true).AddEntityFrameworkStores().AddDefaultTokenProviders().AdddefaultUI();
 
 
         }
@@ -52,14 +60,16 @@ namespace BookStore
 
             app.UseRouting();
 
-            app.UseAuthorization();
             app.UseAuthentication();
+            app.UseAuthorization();
+            
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Books}/{action=Index}/{id?}");
+                endpoints.MapRazorPages();
             });
         }
     }

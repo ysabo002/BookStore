@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BookStore.Migrations
 {
-    [DbContext(typeof(BookStoreContext))]
+    [DbContext(typeof(IdentityBookStoreContext))]
     [Migration("20201118025217_IdentityMigrationIntegrated1")]
     partial class IdentityMigrationIntegrated1
     {

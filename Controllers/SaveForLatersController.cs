@@ -9,7 +9,7 @@ using BookStore.ViewModels;
 
 namespace BookStore
 {
-    public class SaveForLatersController : Controller
+    public class SaveForLatersController : BaseController
     {
       
 

@@ -8,13 +8,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BookStore.Data
 {
-    public class BookStoreContext : IdentityDbContext<IdentityUser>
+    public class IdentityBookStoreContext : IdentityDbContext
     {
-        public BookStoreContext(DbContextOptions<BookStoreContext> options)
+        public IdentityBookStoreContext(DbContextOptions<IdentityBookStoreContext> options)
             : base(options)
         {
         }
-    public virtual DbSet<IdentityUser> Users { get; set; }
         
         protected override void OnModelCreating(ModelBuilder builder)
         {

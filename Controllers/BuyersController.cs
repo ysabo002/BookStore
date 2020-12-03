@@ -8,10 +8,11 @@ using Microsoft.EntityFrameworkCore;
 using BookStore.Models;
 using BookStore.ViewModels;
 using System.Net.Http;
+using BookStore.Controllers;
 
 namespace BookStore
 {
-    public class BuyersController : Controller
+    public class BuyersController : BaseController
     {
 
         public string BaseUrl = "https://localhost:44357/api/";

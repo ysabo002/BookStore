@@ -60,8 +60,7 @@ namespace BookStore.Areas.Identity.Pages.Account
             {
                 ModelState.AddModelError(string.Empty, ErrorMessage);
             }
-
-            returnUrl = returnUrl ?? Url.Content("~/");
+            returnUrl = (returnUrl == null || returnUrl == "/" || returnUrl == "/Home") ? "/Books" : returnUrl;
 
             // Clear the existing external cookie to ensure a clean login process
             await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
@@ -73,7 +72,7 @@ namespace BookStore.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
-            returnUrl = returnUrl ?? Url.Content("~/");
+            returnUrl = (returnUrl == null || returnUrl == "/" || returnUrl == "/Home") ? "/Books" : returnUrl;
 
             if (ModelState.IsValid)
             {
@@ -83,7 +82,8 @@ namespace BookStore.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
-                    return LocalRedirect(returnUrl);
+                    //return LocalRedirect(returnUrl);
+                    return RedirectToPage("/Books");
                 }
                 if (result.RequiresTwoFactor)
                 {

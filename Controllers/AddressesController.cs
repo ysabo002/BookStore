@@ -11,7 +11,7 @@ using System.Net.Http;
 
 namespace BookStore
 {
-    public class AddressesController : Controller
+    public class AddressesController : BaseController
     {
         public string BaseUrl = "https://localhost:44357/api/";
 

@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace BookStore
 {
-    public class CardsController : Controller
+    public class CardsController : BaseController
     {
 
         public string BaseUrl = "https://localhost:44357/api/";

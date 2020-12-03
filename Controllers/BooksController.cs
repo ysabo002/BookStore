@@ -14,8 +14,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace BookStore
 {
-   // [Authorize]
-    public class BooksController : Controller
+    public class BooksController : BaseController
     {
         public string BaseUrl = "https://localhost:44357/api/";
         private readonly IWebHostEnvironment _hostEnvironment;
@@ -28,6 +27,7 @@ namespace BookStore
         }
 
         // GET: Books
+
         public async Task<IActionResult> Index()
         {
             var books = new List<BookViewModel>();

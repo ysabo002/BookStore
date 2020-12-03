@@ -14,14 +14,14 @@ namespace BookStore.Areas.Identity
     {
         public void Configure(IWebHostBuilder builder)
         {
-            builder.ConfigureServices((context, services) => {
-                services.AddDbContext<BookStoreContext>(options =>
-                    options.UseSqlServer(
-                        context.Configuration.GetConnectionString("BookStoreContextConnection")));
+            //builder.ConfigureServices((context, services) => {
+            //    services.AddDbContext<IdentityBookStoreContext>(options =>
+            //        options.UseSqlServer(
+            //            context.Configuration.GetConnectionString("BookStoreContextConnection")));
 
-                services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                    .AddEntityFrameworkStores<BookStoreContext>();
-            });
+            //    services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            //        .AddEntityFrameworkStores<IdentityBookStoreContext>();
+            //});
         }
     }
 }
