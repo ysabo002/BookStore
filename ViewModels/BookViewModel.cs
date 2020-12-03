@@ -39,11 +39,11 @@ namespace BookStore.ViewModels
         public IFormFile Cover { get; set; }//to storage cover image
 
         public string ImageName { get; set; }  //name of the cover file
-      
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yy}")]
         public DateTime CreationDate { get; set; }
 
-        [DisplayFormat(DataFormatString = "{0:MM/dd/yy}")]
-        public string CreationDateString => CreationDate.ToShortDateString();
+        
+        //public string CreationDateString => CreationDate.ToShortDateString();
 
         public int Quantity { get; set; }
         public List<ReviewViewModel> listOfBookReviews { get; set; }
